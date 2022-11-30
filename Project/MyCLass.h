@@ -1,11 +1,14 @@
 #pragma once
-class Myclass {
-	int value;
+
+class Collumn {
+	
+private:
+
 };
 
 class Table {
 
 private:
-
-
+	
+	
 };
