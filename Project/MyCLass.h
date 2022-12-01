@@ -5,7 +5,26 @@ public:
 	TABLE* tabele;
 	int nrOfTables;
 
+	ALLTables()
+	{
+		this->nrOfTables = 0;
 
+	}
+
+	bool tableVerification(const char* numeTabel)
+	{
+		int ok = 0;
+		for (int i = 0; i < nrOfTables; i++)
+		{
+			if (strcmp(tabele[i].tableName, numeTabel) == 0)
+				ok++;
+
+		}
+		if (ok == 0)
+			return true;
+		else
+			return false;
+	}
 };
 
 class TABLE
@@ -14,6 +33,18 @@ public:
 	char* tableName;
 	COLLUMN* coloana;
 	int nrofCollumns;
+
+	TABLE()
+	{
+		this->tableName = NULL;
+		this->nrofCollumns = 0;
+	}
+
+	~TABLE()
+		{
+
+		}
+	
 };
 
 
@@ -85,8 +116,9 @@ public:
 };
 
 class CreateTable:ALLTables{
-	TABLE tabel;
-
+	
+public:
+	
 
 
 	
@@ -111,7 +143,7 @@ class CreateIndex {
 
 };
 
-void findMyCommand(char* command)
+void findMyCommand(char* command,ALLTables database)
 {
 	char* next_token;
 	char* secCommand = strtok_s(command, " ", &next_token);
@@ -124,10 +156,21 @@ void findMyCommand(char* command)
 		{
 			//the table's name
 			secCommand = strtok_s(NULL, " ", &next_token);
-			//verify id the table's name is already used
+			//verify id the table's name is not null
 			if (secCommand != NULL)
 			{
-				cout << secCommand;
+				//verify if the table's name is not already in the database
+				if (database.tableVerification(secCommand))
+				{
+					//here we must introuce at least 1 collumn to the table
+				}
+				else
+				{
+					//the table's name is already in the database
+				}
+				
+				
+
 			}
 		}
 		else if (strcmp(lower(secCommand), "index") == 0)
