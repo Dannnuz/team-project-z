@@ -44,13 +44,13 @@ public:
 		colName = new char[strlen(colName)];
 		strcpy_s(this->colName, strlen(colName) + 1, colName);
     }
-
-	void setType(const char* type)
+	// this function is meant to set the type of the collumn
+	void setType(const char* type) 
 	{
 		type = new char[strlen(type)];
 		strcpy_s(this->type, strlen(type) + 1, type);
 	}
-
+	// this function is meant to set the element in collumn
 	void setElemente( int lines, const char* value)
 	{
 		if (this->elemente==NULL)
