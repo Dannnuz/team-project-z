@@ -92,13 +92,13 @@ class CreateTable:ALLTables{
 	
 };
 
-
+//class for the Drop Table command
 class DropTable {
 
 
 
 };
-
+//class for Display Table
 class DisplayTable {
 
 };
