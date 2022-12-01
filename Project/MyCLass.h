@@ -3,6 +3,7 @@
 class ALLTables {
 public:
 	TABLE** tabele;
+	int nrOfTables;
 };
 
 class TABLE
@@ -10,7 +11,7 @@ class TABLE
 public:
 	char* tableName;
 	COLLUMN* coloana;
-
+	int nrofCollumns;
 };
 
 
@@ -50,19 +51,19 @@ public:
 		strcpy_s(this->type, strlen(type) + 1, type);
 	}
 
-	void setElemente(char** elemente, int lines, const char* value)
+	void setElemente( int lines, const char* value)
 	{
-		if (elemente==NULL)
+		if (this->elemente==NULL)
 		{
 			this->lines = lines;
 			
-			elemente = new char*[lines*sizeof(char*)];
+			this->elemente = new char*[lines*sizeof(char*)];
 			for (int i = 0; i < lines; i++)
-				elemente[i] = new char(maxlenght * sizeof(char));
+				this->elemente[i] = new char(maxlenght * sizeof(char));
 		}
 		for (int i = 0; i < lines; i++)
 		{
-			strcpy_s(elemente[i], strlen(value + 1), value);
+			strcpy_s(this->elemente[i], strlen(value + 1), value);
 		}
 	}
 
@@ -91,6 +92,8 @@ class CreateTable {
 
 class DropTable {
 
+
+
 };
 
 class DisplayTable {
@@ -104,3 +107,72 @@ class DropIndex {
 class CreateIndex {
 
 };
+
+void findMyCommand(char* command)
+{
+	char* next_token;
+	char* secCommand = strtok_s(command, " ", &next_token);
+	//Create - command
+	if (strcmp(lower(secCommand), "create") == 0)
+	{
+		secCommand = strtok_s(NULL, " ", &next_token);
+
+		if (strcmp(lower(secCommand), "table") == 0)
+		{
+			//the table's name
+			secCommand = strtok_s(NULL, " ", &next_token);
+			//verify id the table's name is already used
+			if (secCommand != NULL)
+			{
+				cout << secCommand;
+			}
+		}
+		else if (strcmp(lower(secCommand), "index") == 0)
+		{
+
+		}
+		//wrong input case
+		else
+		{
+
+		}
+	}//drop - command
+	else if (strcmp(lower(secCommand), "drop") == 0)
+		{
+			secCommand = strtok_s(NULL, " ", &next_token);
+
+			if (strcmp(lower(secCommand), "table")==0)
+			{
+
+			}
+			else if (strcmp(lower(secCommand), "index") == 0)
+				{
+				//index name
+				secCommand = strtok_s(NULL, " ", &next_token);
+
+				}
+			//wrong input case
+				else {
+
+				}
+
+		}
+	//display - command
+	else if (strcmp(lower(secCommand), "display") == 0)
+	{
+		secCommand = strtok_s(NULL, " ", &next_token);
+		if (strcmp(lower(secCommand), "table") == 0)
+		{
+			//table name
+			secCommand = strtok_s(NULL, " ", &next_token);
+
+		}
+		//wrong input case
+		else
+		{
+
+		}
+
+	}
+
+}
