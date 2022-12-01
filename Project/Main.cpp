@@ -6,15 +6,7 @@ using namespace std;
 
 
 
-char* lower(char comanda[])
-{
-	for (int i = 0; comanda[i] != NULL; i++)
-	{
-		comanda[i] = tolower(comanda[i]);
-	}
-	
-	return comanda;
-}
+
 
 
 int main()
@@ -24,7 +16,11 @@ int main()
 
 	ALLTables database;
 
-
+	while (strcmp(command, "quit")!=0)
+	{
+	
+		cin.getline(command, 100);
+	}
 	
 
 	
