@@ -89,7 +89,7 @@ class CreateTable {
 	
 };
 
-
+//class for the Drop Table command
 class DropTable {
 
 
