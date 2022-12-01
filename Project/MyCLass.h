@@ -2,8 +2,10 @@
 
 class ALLTables {
 public:
-	TABLE** tabele;
+	TABLE* tabele;
 	int nrOfTables;
+
+
 };
 
 class TABLE
@@ -31,6 +33,7 @@ public:
 		this->colName = NULL;
 		this->type = NULL;
 		this->lines = 0;
+		this->elemente = NULL;
 		
 	}
 
@@ -81,7 +84,7 @@ public:
 
 };
 
-class CreateTable {
+class CreateTable:ALLTables{
 	TABLE tabel;
 
 
@@ -172,6 +175,11 @@ void findMyCommand(char* command)
 		{
 
 		}
+
+	}
+	else
+		//wrong input case
+	{
 
 	}
 
