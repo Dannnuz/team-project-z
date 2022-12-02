@@ -27,16 +27,16 @@ int main()
 	}
 	*/
 	COLLUMN coloana1;
-	coloana1.setColName(command);
-	coloana1.setSize(1);
+
+	coloana1.setSize(2);
 	tabel1.addColoane();
 	
 	
 		tabel1.coloana.push_back(coloana1);
 
-		
+		tabel1.coloana.push_back(coloana1);
 	
-	
+		tabel1.coloana.push_back(coloana1);
 
 }
 
