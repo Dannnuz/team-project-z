@@ -2,7 +2,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <vector>
 using namespace std;
-
+//class ELEMENTE {
+//	string value;
+//};
 
 class COLLUMN
 {
@@ -10,8 +12,7 @@ public:
 	string colName;
 	int size;
 	string type;
-	char** elemente;
-	int lines;
+	/*ELEMENTE* elemente;*/
 	const int maxlenght = 100;
 
 	COLLUMN()
@@ -19,27 +20,18 @@ public:
 		this->size = 0;
 		this->colName = ' ';
 		this->type = ' ';
-		this->lines = 0;
-		this->elemente = NULL;
+		
+		
 
 	}
 
-	COLLUMN(char* colName, int size, const char* type, char** elemente, int lines)
+	COLLUMN(string colName, int size, string type)
 	{
 
 		this->colName = colName;
-		
-
 		this->type = type;
-
-		if (this->elemente == NULL)
-		{
-			this->lines = lines;
-
-			this->elemente = new char* [lines * sizeof(char*)];
-			for (int i = 0; i < lines; i++)
-				this->elemente[i] = new char(maxlenght * sizeof(char));
-		}
+		this->size = size;
+		
 	}
 
 	void setSize(int size)
@@ -58,51 +50,21 @@ public:
 		this->type = type;
 	}
 
-	void setElemente(int lines, const char* value)
+
+
+	COLLUMN& operator=(const COLLUMN& c)
 	{
-		if (this->elemente == NULL)
+		if (this  != &c)
 		{
-			this->lines = lines;
-
-			this->elemente = new char* [lines * sizeof(char*)];
-			for(int i = 0; i < lines; i++)
-				this->elemente[i] = new char(maxlenght * sizeof(char));
+			this->colName = c.colName;
+            this->type = c.type;
+			this->size = c.size;
+			
+			
+		
 		}
-		for (int i = 0; i < lines; i++)
-		{
-			strcpy_s(this->elemente[i], strlen(value + 1), value);
-		}
+		return *this;
 	}
-
-	void setLines()
-	{
-		this->lines = lines + 1;
-
-	}
-
-	//COLLUMN& operator=(const COLLUMN& c)
-	//{
-	//	if (this  != &c)
-	//	{
-	//		this->colName = new char[strlen(c.colName)];
-	//		strcpy_s(this->colName, strlen(c.colName) + 1, c.colName);
-
-	//		type = new char[strlen(c.type)];
-	//		strcpy_s(this->type, strlen(c.type) + 1,c.type);
-
-	//		if (this->elemente == NULL)
-	//		{
-	//			this->lines = c.lines;
-
-	//			this->elemente = new char* [c.lines * sizeof(char*)];
-	//			for (int i = 0; i < lines; i++)
-	//				this->elemente[i] = new char(c.maxlenght * sizeof(char));
-	//		}
-	//		
-	//	
-	//	}
-	//	return *this;
-	//}
 
 	~COLLUMN() {
 		
@@ -112,18 +74,29 @@ public:
 };
 
 
-class TABLE:COLLUMN
+class TABLE :COLLUMN
 {
 public:
 	string tableName;
-	vector<COLLUMN> coloana;
+	COLLUMN* coloana;
 	int nrofCollumns;
 
 	TABLE()
 	{
 		this->tableName = ' ';
 		this->nrofCollumns = 0;
+		this->coloana = new COLLUMN[10];
 		
+		
+		
+	}
+	
+
+	void addCOLLUMNS(COLLUMN &coloana_noua,int nrofCollumns)
+	{
+		
+			this->coloana[nrofCollumns]=coloana_noua;
+			
 		
 	}
 
@@ -155,7 +128,7 @@ public:
 
 	~TABLE()
 	{
-	
+		delete[] coloana;
 
 	}
 
@@ -164,12 +137,13 @@ public:
 
 class ALLTables {
 public:
-	vector<TABLE> tabele;
+	TABLE* tabele;
 	int nrOfTables;
 
 	ALLTables()
 	{
 		this->nrOfTables = 0;
+		this->tabele = new TABLE[10];
 
 	}
 
@@ -178,7 +152,7 @@ public:
 		int ok = 0;
 		for (int i = 0; i < nrOfTables; i++)
 		{
-			if (tabele[i].tableName== numeTabel)
+			if (tabele[i].tableName == numeTabel)
 				ok++;
 
 		}
@@ -188,9 +162,22 @@ public:
 			return false;
 	}
 
+	void addNewTable(TABLE &tabel1,int nrOfTables)
+	{
+		
+		
+			this->tabele[nrOfTables] = tabel1;
+		
+		
+	}
+
 	void addTables()
 	{
 		this->nrOfTables = nrOfTables + 1;
+	}
+
+	~ALLTables() {
+		delete[] tabele;
 	}
 };
 
@@ -283,9 +270,11 @@ void findMyCommand(char* command, ALLTables &database)
 					
 					coloana1.setSize(x);//setter for size
 
-					tabel1.coloana.push_back(coloana1);
+					
+					tabel1.addCOLLUMNS(coloana1,tabel1.nrofCollumns);
 					tabel1.addColoane();
-					database.tabele.push_back(tabel1);
+					
+					database.addNewTable(tabel1,database.nrOfTables);
 					database.addTables();
 
 				}
