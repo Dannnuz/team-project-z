@@ -2,9 +2,27 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <vector>
 using namespace std;
-//class ELEMENTE {
-//	string value;
-//};
+class ELEMENTE {
+
+public:
+	string value;
+
+	ELEMENTE()
+	{
+		this->value = ' ';
+	}
+
+	void addElemente(string e)
+	{
+		this->value = e;
+
+	}
+
+	~ELEMENTE()
+	{
+
+	}
+};
 
 class COLLUMN
 {
@@ -12,16 +30,16 @@ public:
 	string colName;
 	int size;
 	string type;
-	/*ELEMENTE* elemente;*/
-	const int maxlenght = 100;
+	ELEMENTE* elemente;
+	int nr_elemente;
 
 	COLLUMN()
 	{
 		this->size = 0;
 		this->colName = ' ';
 		this->type = ' ';
-		
-		
+		this->elemente = new ELEMENTE[10];
+		this->nr_elemente = 0;
 
 	}
 
@@ -50,7 +68,16 @@ public:
 		this->type = type;
 	}
 
+	void addELEMENTE(ELEMENTE &element, int nr_elemente)
+	{
+		this->elemente[nr_elemente] = element;
 
+	}
+
+	void addNrElemente()
+	{
+		this->nr_elemente = nr_elemente + 1;
+	}
 
 	COLLUMN& operator=(const COLLUMN& c)
 	{
@@ -59,7 +86,7 @@ public:
 			this->colName = c.colName;
             this->type = c.type;
 			this->size = c.size;
-			
+			this->nr_elemente = c.nr_elemente;
 			
 		
 		}
@@ -68,7 +95,6 @@ public:
 
 	~COLLUMN() {
 		
-
 	}
 
 };
@@ -128,14 +154,14 @@ public:
 
 	~TABLE()
 	{
-		delete[] coloana;
+		//it erases the adress of the vector
 
 	}
 
 };
 
 
-class ALLTables {
+class ALLTables:TABLE {
 public:
 	TABLE* tabele;
 	int nrOfTables;
@@ -269,6 +295,17 @@ void findMyCommand(char* command, ALLTables &database)
 					int x = atoi(secCommand);
 					
 					coloana1.setSize(x);//setter for size
+
+					//default value
+					secCommand = strtok_s(NULL, " ,()", &next_token);
+					s = lower(secCommand);
+					
+					ELEMENTE element1;
+					element1.addElemente(s);
+					for (int i = 0; i < 10; i++)
+					{
+						coloana1.addELEMENTE(element1,i);
+					}
 
 					
 					tabel1.addCOLLUMNS(coloana1,tabel1.nrofCollumns);
