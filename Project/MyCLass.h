@@ -1,4 +1,9 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
+
+using namespace std;
+
+
 class COLLUMN
 {
 public:
@@ -19,6 +24,25 @@ public:
 
 	}
 
+	COLLUMN(char* colName, int size, const char* type, char** elemente, int lines)
+	{
+
+		this->colName = new char[strlen(colName)];
+		strcpy_s(this->colName, strlen(colName) + 1, colName);
+
+		type = new char[strlen(type)];
+		strcpy_s(this->type, strlen(type) + 1, type);
+
+		if (this->elemente == NULL)
+		{
+			this->lines = lines;
+
+			this->elemente = new char* [lines * sizeof(char*)];
+			for (int i = 0; i < lines; i++)
+				this->elemente[i] = new char(maxlenght * sizeof(char));
+		}
+	}
+
 	void setSize(int size)
 	{
 		this->size = size;
@@ -26,7 +50,7 @@ public:
 
 	void setColName(const char* colName)
 	{
-		colName = new char[strlen(colName)];
+		this->colName = new char[strlen(colName)];
 		strcpy_s(this->colName, strlen(colName) + 1, colName);
 	}
 
@@ -58,6 +82,30 @@ public:
 
 	}
 
+	COLLUMN& operator=(const COLLUMN& c)
+	{
+		if (this  != &c)
+		{
+			this->colName = new char[strlen(c.colName)];
+			strcpy_s(this->colName, strlen(c.colName) + 1, c.colName);
+
+			type = new char[strlen(c.type)];
+			strcpy_s(this->type, strlen(c.type) + 1,c.type);
+
+			if (this->elemente == NULL)
+			{
+				this->lines = c.lines;
+
+				this->elemente = new char* [c.lines * sizeof(char*)];
+				for (int i = 0; i < lines; i++)
+					this->elemente[i] = new char(c.maxlenght * sizeof(char));
+			}
+			
+		
+		}
+		return *this;
+	}
+
 	~COLLUMN() {
 		delete[] colName;
 		delete[] type;
@@ -65,7 +113,9 @@ public:
 	}
 
 };
-class TABLE
+
+
+class TABLE:COLLUMN
 {
 public:
 	char* tableName;
@@ -76,10 +126,39 @@ public:
 	{
 		this->tableName = NULL;
 		this->nrofCollumns = 0;
+		this->coloana = NULL;
+		
+	}
+
+	TABLE(const char* tableName, int nrofCollumns)
+	{
+		this->tableName = new char[strlen(tableName) + 1];
+		strcpy_s(this->tableName, strlen(tableName) + 1, tableName);
+
+		this->nrofCollumns = nrofCollumns;
+		this->coloana = NULL;
+	}
+
+	void addColoane()
+	{
+		this->nrofCollumns = nrofCollumns+1;
+
+	}
+
+	void addCOLLUMN(COLLUMN coloana,int i)
+	{
+		this->coloana[i] = coloana;
+	
+	}
+
+	char* getTableName()
+	{
+		return this->tableName;
 	}
 
 	~TABLE()
 	{
+		delete[] tableName;
 
 	}
 
@@ -110,6 +189,11 @@ public:
 			return true;
 		else
 			return false;
+	}
+
+	void addTables()
+	{
+		this->nrOfTables = nrOfTables + 1;
 	}
 };
 
@@ -175,9 +259,27 @@ void findMyCommand(char* command, ALLTables database)
 				if (database.tableVerification(secCommand))
 				{
 					//here we must introuce at least 1 collumn to the table
+					database.addTables();
+					
+					
+
+					//column name
+					secCommand = strtok_s(NULL, " ,()", &next_token);
+					
+
+					//type of collumn
+					secCommand = strtok_s(NULL, " ,()", &next_token);
+					
+
+					//size
+					secCommand = strtok_s(NULL, " ,()", &next_token);
+					int x = atoi(secCommand);
+					
 				}
 				else
 				{
+					cout << "The table's name is already in the database" << endl;
+					
 					//the table's name is already in the database
 				}
 				
