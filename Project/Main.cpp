@@ -16,9 +16,9 @@ int main()
 	int n = 10;
 
 
-	TABLE tabel1("order", 1);
+	/*TABLE tabel1("order", 1);
 
-	cout<<tabel1.getTableName();
+	cout<<tabel1.getTableName();*/
 	/*
 	while (strcmp(command, "quit")!=0)
 	{
@@ -26,18 +26,24 @@ int main()
 		cin.getline(command, 100);
 	}
 	*/
-	COLLUMN coloana1;
+	ALLTables database;
+	//COLLUMN coloana1;
 
-	coloana1.setSize(2);
-	tabel1.addColoane();
-	
-	
-		tabel1.coloana.push_back(coloana1);
+	//coloana1.setSize(2);
+	//coloana1.setColName("coloana1");
+	//tabel1.addColoane();
+	//
+	////this is how u introduce values in the collumn vector in table's class
+	//	tabel1.coloana.push_back(coloana1);
 
-		tabel1.coloana.push_back(coloana1);
-	
-		tabel1.coloana.push_back(coloana1);
+	//	tabel1.coloana.push_back(coloana1);
+	//
+	//	tabel1.coloana.push_back(coloana1);
+ //  //this is how u introduce tables in the database
+	//	database.tabele.push_back(tabel1);
 
+
+	findMyCommand(command, database);
 }
 
 	

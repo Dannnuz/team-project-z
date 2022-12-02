@@ -7,9 +7,9 @@ using namespace std;
 class COLLUMN
 {
 public:
-	char* colName;
+	string colName;
 	int size;
-	char* type;
+	string type;
 	char** elemente;
 	int lines;
 	const int maxlenght = 100;
@@ -17,8 +17,8 @@ public:
 	COLLUMN()
 	{
 		this->size = 0;
-		this->colName = NULL;
-		this->type = NULL;
+		this->colName = ' ';
+		this->type = ' ';
 		this->lines = 0;
 		this->elemente = NULL;
 
@@ -27,11 +27,10 @@ public:
 	COLLUMN(char* colName, int size, const char* type, char** elemente, int lines)
 	{
 
-		this->colName = new char[strlen(colName)];
-		strcpy_s(this->colName, strlen(colName) + 1, colName);
+		this->colName = colName;
+		
 
-		type = new char[strlen(type)];
-		strcpy_s(this->type, strlen(type) + 1, type);
+		this->type = type;
 
 		if (this->elemente == NULL)
 		{
@@ -48,16 +47,15 @@ public:
 		this->size = size;
 	}
 
-	void setColName(const char* colName)
+	void setColName(string colName)
 	{
-		this->colName = new char[strlen(colName)];
-		strcpy_s(this->colName, strlen(colName) + 1, colName);
+		this->colName = colName;
+		
 	}
 
-	void setType(const char* type)
+	void setType(string type)
 	{
-		type = new char[strlen(type)];
-		strcpy_s(this->type, strlen(type) + 1, type);
+		this->type = type;
 	}
 
 	void setElemente(int lines, const char* value)
@@ -67,7 +65,7 @@ public:
 			this->lines = lines;
 
 			this->elemente = new char* [lines * sizeof(char*)];
-			for (int i = 0; i < lines; i++)
+			for(int i = 0; i < lines; i++)
 				this->elemente[i] = new char(maxlenght * sizeof(char));
 		}
 		for (int i = 0; i < lines; i++)
@@ -82,33 +80,32 @@ public:
 
 	}
 
-	COLLUMN& operator=(const COLLUMN& c)
-	{
-		if (this  != &c)
-		{
-			this->colName = new char[strlen(c.colName)];
-			strcpy_s(this->colName, strlen(c.colName) + 1, c.colName);
+	//COLLUMN& operator=(const COLLUMN& c)
+	//{
+	//	if (this  != &c)
+	//	{
+	//		this->colName = new char[strlen(c.colName)];
+	//		strcpy_s(this->colName, strlen(c.colName) + 1, c.colName);
 
-			type = new char[strlen(c.type)];
-			strcpy_s(this->type, strlen(c.type) + 1,c.type);
+	//		type = new char[strlen(c.type)];
+	//		strcpy_s(this->type, strlen(c.type) + 1,c.type);
 
-			if (this->elemente == NULL)
-			{
-				this->lines = c.lines;
+	//		if (this->elemente == NULL)
+	//		{
+	//			this->lines = c.lines;
 
-				this->elemente = new char* [c.lines * sizeof(char*)];
-				for (int i = 0; i < lines; i++)
-					this->elemente[i] = new char(c.maxlenght * sizeof(char));
-			}
-			
-		
-		}
-		return *this;
-	}
+	//			this->elemente = new char* [c.lines * sizeof(char*)];
+	//			for (int i = 0; i < lines; i++)
+	//				this->elemente[i] = new char(c.maxlenght * sizeof(char));
+	//		}
+	//		
+	//	
+	//	}
+	//	return *this;
+	//}
 
 	~COLLUMN() {
-		delete[] colName;
-		delete[] type;
+		
 
 	}
 
@@ -118,25 +115,29 @@ public:
 class TABLE:COLLUMN
 {
 public:
-	char* tableName;
+	string tableName;
 	vector<COLLUMN> coloana;
 	int nrofCollumns;
 
 	TABLE()
 	{
-		this->tableName = NULL;
+		this->tableName = ' ';
 		this->nrofCollumns = 0;
 		
 		
 	}
 
-	TABLE(const char* tableName, int nrofCollumns)
+	TABLE(string tableName, int nrofCollumns)
 	{
-		this->tableName = new char[strlen(tableName) + 1];
-		strcpy_s(this->tableName, strlen(tableName) + 1, tableName);
+		this->tableName = tableName;
+		
 
 		this->nrofCollumns = nrofCollumns;
 		
+	}
+	void setTabelName(string tableName)
+	{
+		this->tableName = tableName;
 	}
 
 	void addColoane()
@@ -145,20 +146,16 @@ public:
 
 	}
 
-	void addCOLLUMN(COLLUMN coloana,int i)
-	{
-		this->coloana[i] = coloana;
 	
-	}
 
-	char* getTableName()
+ string getTableName()
 	{
 		return this->tableName;
 	}
 
 	~TABLE()
 	{
-		delete[] tableName;
+	
 
 	}
 
@@ -167,7 +164,7 @@ public:
 
 class ALLTables {
 public:
-	TABLE* tabele;
+	vector<TABLE> tabele;
 	int nrOfTables;
 
 	ALLTables()
@@ -176,12 +173,12 @@ public:
 
 	}
 
-	bool tableVerification(const char* numeTabel)
+	bool tableVerification(string numeTabel)
 	{
 		int ok = 0;
 		for (int i = 0; i < nrOfTables; i++)
 		{
-			if (strcmp(tabele[i].tableName, numeTabel) == 0)
+			if (tabele[i].tableName== numeTabel)
 				ok++;
 
 		}
@@ -237,8 +234,9 @@ char* lower(char comanda[])
 	return comanda;
 }
 
-void findMyCommand(char* command, ALLTables database)
+void findMyCommand(char* command, ALLTables &database)
 {
+	string s;
 	char* next_token;
 	char* secCommand = strtok_s(command," ", &next_token);
 	//Create - command
@@ -250,29 +248,46 @@ void findMyCommand(char* command, ALLTables database)
 		{
 			//the table's name
 			secCommand = strtok_s(NULL, " ", &next_token);
-			//verify id the table's name is not null
+			//verify if the table's name is not null
 			if (secCommand != NULL)
 			{
+				//transform the char into a string
+				s = lower(secCommand);
 				//verify if the table's name is not already in the database
 				if (database.tableVerification(secCommand))
 				{
-					//here we must introuce at least 1 collumn to the table
-					database.addTables();
-					
-					
+					//we make a local object of TABLE class
+					TABLE tabel1;
+					tabel1.setTabelName(s);
 
+					//we create a local object of COLLUMN class
+					COLLUMN coloana1;
+					//here we must introuce at least 1 collumn to the table
+				
+					
 					//column name
 					secCommand = strtok_s(NULL, " ,()", &next_token);
-					
+					s = lower(secCommand);
+
+					coloana1.setColName(s);//setter for collumn name
 
 					//type of collumn
 					secCommand = strtok_s(NULL, " ,()", &next_token);
-					
+
+					s = lower(secCommand);
+					coloana1.setType(s);//setter for type
 
 					//size
 					secCommand = strtok_s(NULL, " ,()", &next_token);
 					int x = atoi(secCommand);
 					
+					coloana1.setSize(x);//setter for size
+
+					tabel1.coloana.push_back(coloana1);
+					tabel1.addColoane();
+					database.tabele.push_back(tabel1);
+					database.addTables();
+
 				}
 				else
 				{
