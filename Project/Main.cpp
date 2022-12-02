@@ -45,6 +45,10 @@ int main()
 	//create table tabelnou ((masini,char,20,logan))
 
 	findMyCommand(command, database);
+	cin.getline(command, 100);
+	findMyCommand(command, database);
+
+	cout << database.tabele[1].getTableName();
 }
 
 	

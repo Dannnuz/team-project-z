@@ -28,6 +28,7 @@ public:
 
 	
 	}
+	
 
 	~ELEMENTE()
 	{
@@ -127,7 +128,7 @@ public:
 		this->nrofCollumns = 0;
 		this->coloana = new COLLUMN[10];
 		
-		
+	
 		
 	}
 	
@@ -211,13 +212,17 @@ public:
 		
 	}
 
+	TABLE getTable(int nrOfTables)
+	{
+		return tabele[nrOfTables];
+	}
 	void addTables()
 	{
 		this->nrOfTables = nrOfTables + 1;
 	}
 
 	~ALLTables() {
-		delete[] tabele;
+		
 	}
 };
 
