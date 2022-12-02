@@ -1,6 +1,6 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
-
+#include <vector>
 using namespace std;
 
 
@@ -52,7 +52,7 @@ public:
 	{
 		this->colName = new char[strlen(colName)];
 		strcpy_s(this->colName, strlen(colName) + 1, colName);
-    }
+	}
 
 	void setType(const char* type)
 	{
@@ -60,7 +60,7 @@ public:
 		strcpy_s(this->type, strlen(type) + 1, type);
 	}
 
-	void setElemente( int lines, const char* value)
+	void setElemente(int lines, const char* value)
 	{
 		if (this->elemente == NULL)
 		{
@@ -119,14 +119,14 @@ class TABLE:COLLUMN
 {
 public:
 	char* tableName;
-	COLLUMN* coloana;
+	vector<COLLUMN> coloana;
 	int nrofCollumns;
 
 	TABLE()
 	{
 		this->tableName = NULL;
 		this->nrofCollumns = 0;
-		this->coloana = NULL;
+		
 		
 	}
 
@@ -136,7 +136,7 @@ public:
 		strcpy_s(this->tableName, strlen(tableName) + 1, tableName);
 
 		this->nrofCollumns = nrofCollumns;
-		this->coloana = NULL;
+		
 	}
 
 	void addColoane()
@@ -196,9 +196,6 @@ public:
 		this->nrOfTables = nrOfTables + 1;
 	}
 };
-
-
-
 
 
 

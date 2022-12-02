@@ -27,17 +27,15 @@ int main()
 	}
 	*/
 	COLLUMN coloana1;
-	
 	coloana1.setColName(command);
-/*
+	coloana1.setSize(1);
 	tabel1.addColoane();
-	COLLUMN* coloana;
+	
+	
+		tabel1.coloana.push_back(coloana1);
 
-	for (int i = 0; i < tabel1.nrofCollumns; i++)
-	{
-		coloana[i]("Buna",20,"ziua",nullptr,0);
-	}
-	*/
+		
+	
 	
 
 }
