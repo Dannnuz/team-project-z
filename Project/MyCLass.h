@@ -52,7 +52,7 @@ public:
 	{
 		this->colName = new char[strlen(colName)];
 		strcpy_s(this->colName, strlen(colName) + 1, colName);
-	}
+    }
 
 	void setType(const char* type)
 	{
@@ -60,7 +60,7 @@ public:
 		strcpy_s(this->type, strlen(type) + 1, type);
 	}
 
-	void setElemente(int lines, const char* value)
+	void setElemente( int lines, const char* value)
 	{
 		if (this->elemente == NULL)
 		{
