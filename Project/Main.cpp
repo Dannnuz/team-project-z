@@ -42,6 +42,7 @@ int main()
  //  //this is how u introduce tables in the database
 	//	database.tabele.push_back(tabel1);
 
+	//create table tabelnou ((masini,char,20,logan))
 
 	findMyCommand(command, database);
 }

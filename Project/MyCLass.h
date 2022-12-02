@@ -18,6 +18,17 @@ public:
 
 	}
 
+	ELEMENTE& operator=(const ELEMENTE& e)
+	{
+		if (this != &e)
+		{
+			this->value = e.value;
+		}
+		return *this;
+
+	
+	}
+
 	~ELEMENTE()
 	{
 
@@ -87,7 +98,10 @@ public:
             this->type = c.type;
 			this->size = c.size;
 			this->nr_elemente = c.nr_elemente;
-			
+			for (int i = 0; i < 10; i++)
+			{
+				this->elemente[i] = c.elemente[i];
+			}
 		
 		}
 		return *this;
