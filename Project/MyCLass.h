@@ -47,7 +47,7 @@ public:
 	string type;
 	ELEMENTE* elemente;
 	int nr_elemente;
-
+	string index;
 	COLLUMN()
 	{
 		this->size = 0;
@@ -55,7 +55,7 @@ public:
 		this->type = ' ';
 		this->elemente = new ELEMENTE[10];
 		this->nr_elemente = 0;
-
+		this->index = ' ';
 	}
 
 	COLLUMN(string colName, int size, string type)
@@ -98,6 +98,7 @@ public:
 	{
 		if (this  != &c)
 		{
+			this->index = c.index;
 			this->colName = c.colName;
             this->type = c.type;
 			this->size = c.size;
