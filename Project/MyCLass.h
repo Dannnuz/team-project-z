@@ -384,6 +384,7 @@ void findMyCommand(char* command, ALLTables &database)
 				}
 
 		}
+
 	//display - command
 	else if (strcmp(lower(secCommand), "display") == 0)
 	{
@@ -406,5 +407,61 @@ void findMyCommand(char* command, ALLTables &database)
 	{
 
 	}
+
+	////insert into - command
+	//else if (strcmp(lower(secCommand), "insert") == 0)
+	//{
+	//	secCommand = strtok_s(NULL, " ", &next_token);
+	//	if (strcmp(lower(secCommand), "into") == 0)
+	//	{
+	//		secCommand = strtok_s(NULL, " ", &next_token);
+	//	}
+	//	else
+	//	{
+	//		//wrong input case
+	//	}
+
+	//}
+
+	////delete from - command
+	//else if (strcmp(lower(secCommand), "delete") == 0)
+	//{
+	//	secCommand = strtok_s(NULL, " ", &next_token);
+	//	if (strcmp(lower(secCommand), "from") == 0)
+	//	{
+	//		secCommand = strtok_s(NULL, "", &next_token);
+	//	}
+	//	else
+	//	{
+	//		//wrong input case
+	//	}
+	//}
+
+	////select from - command
+	//else if (strcmp(lower(secComand), "select") == 0)
+	//{
+	//	secCommand = strtok_s(NULL, " ", &next_token);
+	//	if (strcmp(lower(secCommand), "all") == 0)
+	//	{
+	//		secCommand = strtok_s(NULL, " ", &next_token);
+	//		if (strcmp(lower(secCommand), "from") == 0)
+	//		{
+	//			secCommand = strtok_s(NULL, " ", &next_token);
+	//		}
+	//		else
+	//		{
+	//			//wrong input case
+	//		}
+	//	}
+	//	else
+	//	{
+	//		//wrong input case
+	//	}
+	//}
+
+	////update - command
+	//else if (strcmp(lower(secCommand), "update") == 0) {
+	//	secCommand = strtok_s(NULL, " ", &next_token);
+	//}
 
 }
