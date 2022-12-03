@@ -45,8 +45,8 @@ int main()
 	//create table tabelnou ((masini,char,20,logan),(clienti,char,10,marcel),(george,char,10,pensie)
 
 	findMyCommand(command, database);
-	
-	
+	cin.getline(command, 100);
+	findMyCommand(command, database);
 }
 
 	
