@@ -47,6 +47,6 @@ int main()
 	findMyCommand(command, database);
 	cin.getline(command, 100);
 	findMyCommand(command, database);
-}
 
+}
 	

@@ -370,7 +370,16 @@ void findMyCommand(char* command, ALLTables &database)
 
 			if (strcmp(lower(secCommand), "table")==0)
 			{
+				secCommand = strtok_s(NULL, " ", &next_token);//table name
+				s = lower(secCommand);
 
+				for (int i = 0; i < database.nrOfTables; i++)
+				{
+					if (database.tabele[i].tableName == s)
+					{
+						database.tabele[i] = database.tabele[i + 1];
+					}
+				}
 			}
 			else if (strcmp(lower(secCommand), "index") == 0)
 				{
