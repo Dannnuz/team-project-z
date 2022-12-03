@@ -2,6 +2,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <vector>
 using namespace std;
+
+//the class for the elements
 class ELEMENTE {
 
 public:
@@ -36,6 +38,7 @@ public:
 	}
 };
 
+//the class for the collumns
 class COLLUMN
 {
 public:
@@ -114,7 +117,7 @@ public:
 
 };
 
-
+//the class for the table which inherits collumn
 class TABLE :COLLUMN
 {
 public:
@@ -175,7 +178,7 @@ public:
 
 };
 
-
+//the class that contains all tables created, which inherits table
 class ALLTables:TABLE {
 public:
 	TABLE* tabele;
@@ -266,6 +269,7 @@ char* lower(char comanda[])
 	return comanda;
 }
 
+//function for validating and using the commands
 void findMyCommand(char* command, ALLTables &database)
 {
 	string s;
