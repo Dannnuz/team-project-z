@@ -42,13 +42,11 @@ int main()
  //  //this is how u introduce tables in the database
 	//	database.tabele.push_back(tabel1);
 
-	//create table tabelnou ((masini,char,20,logan))
+	//create table tabelnou ((masini,char,20,logan),(clienti,char,10,marcel),(george,char,10,pensie)
 
 	findMyCommand(command, database);
-	cin.getline(command, 100);
-	findMyCommand(command, database);
-
-	cout << database.tabele[1].getTableName();
+	
+	
 }
 
 	

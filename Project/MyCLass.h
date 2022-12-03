@@ -291,45 +291,50 @@ void findMyCommand(char* command, ALLTables &database)
 					//we make a local object of TABLE class
 					TABLE tabel1;
 					tabel1.setTabelName(s);
-
-					//we create a local object of COLLUMN class
-					COLLUMN coloana1;
-					//here we must introuce at least 1 collumn to the table
-				
-					
-					//column name
 					secCommand = strtok_s(NULL, " ,()", &next_token);
-					s = lower(secCommand);
-
-					coloana1.setColName(s);//setter for collumn name
-
-					//type of collumn
-					secCommand = strtok_s(NULL, " ,()", &next_token);
-
-					s = lower(secCommand);
-					coloana1.setType(s);//setter for type
-
-					//size
-					secCommand = strtok_s(NULL, " ,()", &next_token);
-					int x = atoi(secCommand);
-					
-					coloana1.setSize(x);//setter for size
-
-					//default value
-					secCommand = strtok_s(NULL, " ,()", &next_token);
-					s = lower(secCommand);
-					
-					ELEMENTE element1;
-					element1.addElemente(s);
-					for (int i = 0; i < 10; i++)
+					while (secCommand)
 					{
-						coloana1.addELEMENTE(element1,i);
-					}
+						//we create a local object of COLLUMN class
+						COLLUMN coloana1;
+						//here we must introuce at least 1 collumn to the table
 
-					
-					tabel1.addCOLLUMNS(coloana1,tabel1.nrofCollumns);
-					tabel1.addColoane();
-					
+
+						//column name
+						
+						s = lower(secCommand);
+
+						coloana1.setColName(s);//setter for collumn name
+
+						//type of collumn
+						secCommand = strtok_s(NULL, " ,()", &next_token);
+
+						s = lower(secCommand);
+						coloana1.setType(s);//setter for type
+
+						//size
+						secCommand = strtok_s(NULL, " ,()", &next_token);
+						int x = atoi(secCommand);
+
+						coloana1.setSize(x);//setter for size
+
+						//default value
+						secCommand = strtok_s(NULL, " ,()", &next_token);
+						s = lower(secCommand);
+
+						ELEMENTE element1;
+						element1.addElemente(s);
+						for (int i = 0; i < 10; i++)
+						{
+							coloana1.addELEMENTE(element1, i);
+						}
+
+						//here we copy the collumn into the table
+						tabel1.addCOLLUMNS(coloana1, tabel1.nrofCollumns);
+						tabel1.addColoane();
+
+						secCommand = strtok_s(NULL, " ,()", &next_token);
+					}
+					//here we copy the table into the database
 					database.addNewTable(tabel1,database.nrOfTables);
 					database.addTables();
 
