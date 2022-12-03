@@ -215,6 +215,11 @@ public:
 		
 	}
 
+	void delNrofTables()
+	{
+		this->nrOfTables= nrOfTables - 1;
+	}
+
 	TABLE getTable(int nrOfTables)
 	{
 		return tabele[nrOfTables];
@@ -372,14 +377,43 @@ void findMyCommand(char* command, ALLTables &database)
 			{
 				secCommand = strtok_s(NULL, " ", &next_token);//table name
 				s = lower(secCommand);
-
+				int ok = 0;
+				int found = 0;
+				TABLE tabel2;
 				for (int i = 0; i < database.nrOfTables; i++)
 				{
 					if (database.tabele[i].tableName == s)
 					{
-						database.tabele[i] = database.tabele[i + 1];
+						if (i == database.nrOfTables - 1)
+						{
+							database.tabele[i] = tabel2;
+							database.delNrofTables();
+							i--;
+							found++;
+						}
+						else
+						{
+							for (int j = i; j < database.nrOfTables - 1; j++)
+							{
+								database.tabele[j] = database.tabele[j + 1];
+							}
+							database.delNrofTables();
+							i--;
+							found++;
+						}
+						
 					}
 				}
+
+				if (found)
+				{
+					cout << "Elemenst has been deleted"<<endl;
+				}
+				else
+				{
+					cout << "Element not found";
+				}
+				
 			}
 			else if (strcmp(lower(secCommand), "index") == 0)
 				{
