@@ -228,6 +228,36 @@ public:
 	}
 };
 
+//the class for indexes
+class INDEXES:COLLUMN{
+	string* indexName;
+	COLUMN* coloana;
+
+	INDEX() {
+		indexName = NULL;
+	}
+
+	INDEX(string* indexName) {
+		this->indexName = indexName;
+	}
+	
+	~INDEX() {
+	
+	}
+
+	void setIndex() {
+		
+	}
+
+	string getIndex() {
+		if (this->indexName != NULL)
+			return this->indexName;
+		else
+			return "Index does not exist";
+	}
+
+};
+
 char* lower(char comanda[])
 {
 	for (int i = 0; comanda[i] != NULL; i++)
@@ -323,8 +353,15 @@ void findMyCommand(char* command, ALLTables& database)
 
 			}
 		}
+		//create index-command
 		else if (strcmp(lower(secCommand), "index") == 0)
 		{
+			//the index name
+			secCommand = strtok_s(NULL, " ", &next_token);
+			//verify if we have an index name
+			if (secCommand != NULL) {
+				
+			}
 
 		}
 		//wrong input case
