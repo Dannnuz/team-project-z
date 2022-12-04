@@ -431,6 +431,37 @@ void findMyCommand(char* command, ALLTables& database)
 		}
 
 	}
+	//select command
+	else if (strcmp(lower(secCommand), "select") == 0)
+	{
+	secCommand = strtok_s(NULL, " ", &next_token);
+	for (int i = 0; i < database.nrOfTables; i++)
+	{
+		for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+		{
+			COLLUMN coloana2;
+			s = lower(secCommand);
+			if (database.tabele[i].coloana[j].colName == s)
+			{
+				cout << database.tabele[i].coloana[j].colName << endl;
+				for (int z = 0; z < database.tabele[i].coloana[j].nr_elemente; z++)
+				{
+					cout << database.tabele[i].coloana[j].elemente[z].value << endl;
+				}
+				secCommand = strtok_s(NULL, " ", &next_token);
+				if (secCommand != NULL)
+				{
+					if (strcmp(lower(secCommand), ",") == 0)
+					{
+						secCommand = strtok_s(NULL, " ", &next_token);
+						
+					}
+				}
+			}
+		}
+	}
+		
+	}
 	//dedelete from  - command
 	else if (strcmp(lower(secCommand), "delete") == 0)
 	{	
@@ -517,6 +548,7 @@ void findMyCommand(char* command, ALLTables& database)
 	{
 	
 	}
+	
 
 	////insert into - command
 	//else if (strcmp(lower(secCommand), "insert") == 0)
