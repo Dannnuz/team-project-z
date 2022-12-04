@@ -112,6 +112,8 @@ public:
 		return *this;
 	}
 
+
+
 	~COLLUMN() {
 		
 	}
@@ -164,7 +166,10 @@ public:
 
 	}
 
-	
+	void delNrOfCollumns()
+	{
+		this->nrofCollumns = nrofCollumns - 1;
+	}
 
  string getTableName()
 	{
@@ -402,7 +407,7 @@ void findMyCommand(char* command, ALLTables &database)
 							i--;
 							found++;
 						}
-						
+						database.tabele[database.nrOfTables + 1] = tabel2;
 					}
 				}
 
@@ -437,6 +442,23 @@ void findMyCommand(char* command, ALLTables &database)
 		{
 			//table name
 			secCommand = strtok_s(NULL, " ", &next_token);
+			s = lower(secCommand);
+			for (int i = 0; i < database.nrOfTables; i++)
+			{
+				if (s == database.tabele[i].tableName)
+				{
+					cout << endl << database.tabele[i].tableName<<endl;
+					for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+					{
+						cout << database.tabele[i].coloana[j].colName<<endl;
+						for (int z = 0; z < database.tabele[i].coloana[j].nr_elemente;z++)
+						{
+							cout << database.tabele[i].coloana[j].elemente[z].value<<endl;
+						}
+						
+					}
+				}
+			}
 
 		}
 		//wrong input case
@@ -446,11 +468,118 @@ void findMyCommand(char* command, ALLTables &database)
 		}
 
 	}
-	else
-		//wrong input case
+	else if (strcmp(lower(secCommand), "delete") == 0)
 	{
+		secCommand = strtok_s(NULL, " ", &next_token);
 
+		if (strcmp(lower(secCommand), "from") == 0)
+		{
+			//table name
+			secCommand = strtok_s(NULL, " ", &next_token);
+			s = lower(secCommand);
+			for (int i = 0; i < database.nrOfTables; i++)
+			{
+				if (database.tabele[i].tableName == s)
+				{
+					secCommand = strtok_s(NULL, " ", &next_token);
+					if (strcmp(lower(secCommand), "where") == 0)
+					{
+						secCommand = strtok_s(NULL, " ", &next_token);
+						if (strcmp(lower(secCommand), "column_name") == 0)
+						{
+							secCommand = strtok_s(NULL, " ", &next_token);
+							if (strcmp(lower(secCommand), "=") == 0)
+							{
+								secCommand = strtok_s(NULL, " ", &next_token);
+								s = lower(secCommand);
+								COLLUMN coloana2;
+								int found = 0;
+								for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+								{
+									if (s==database.tabele[i].coloana[j].colName)
+									{
+										if (j == database.tabele[i].nrofCollumns - 1)
+										{
+											database.tabele[i].coloana[j] = coloana2;
+											database.tabele[i].delNrOfCollumns();
+											i--;
+											found++;
+										}
+										else
+										{
+											for (int k = j; k < database.tabele[i].nrofCollumns - 1; k++)
+											{
+												database.tabele[i].coloana[k] = database.tabele[i].coloana[k + 1];
+											}
+											database.tabele[i].delNrOfCollumns();
+											j--;
+											found++;
+										}
+
+										database.tabele[i].coloana[database.tabele[i].nrofCollumns] = coloana2;
+									}
+								}
+								if (found)
+								{
+									cout << "Element has been deleted" << endl;
+								}
+								else
+								{
+									cout << "Element not found";
+								}
+							}
+							else
+							{
+								cout << "wrong sign";
+							}
+						}
+						else
+						{
+							cout << "wrong collumn name";
+						}
+					}
+					else
+					{
+						cout << "wrong where clause";
+					}
+
+				}
+			}
+		}
+
+		else
+		{
+			cout << "there is no from";
+		}
 	}
+	
+	else if(strcmp(lower(secCommand),"insert")==0)
+	{
+	secCommand = strtok_s(NULL, " ", &next_token);
+	if (strcmp(lower(secCommand), "into") == 0)
+	{
+		secCommand = strtok_s(NULL, " ", &next_token);
+		s = lower(secCommand);
+	
+		for (int i = 0; i < database.nrOfTables; i++)
+		{
+			if (s == database.tabele[i].tableName)
+			{
+				for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+				{
+					secCommand = strtok_s(NULL, " ,()", &next_token);
+					s = lower(secCommand);
+
+					database.tabele[i].coloana[j].elemente[database.tabele[i].coloana[j].nr_elemente].value = s;
+					database.tabele[i].coloana[j].addNrElemente();
+				}
+			}
+		}
+	}
+
+
+
+    }
 
 	////insert into - command
 	//else if (strcmp(lower(secCommand), "insert") == 0)

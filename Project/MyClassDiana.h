@@ -3,6 +3,7 @@
 #include <vector>
 using namespace std;
 
+//the class for the elements
 class ELEMENTE {
 
 public:
@@ -46,7 +47,8 @@ public:
 	string type;
 	ELEMENTE* elemente;
 	int nr_elemente;
-
+	string* index;
+	int nrOfIndex;
 	COLLUMN()
 	{
 		this->size = 0;
@@ -54,7 +56,8 @@ public:
 		this->type = ' ';
 		this->elemente = new ELEMENTE[10];
 		this->nr_elemente = 0;
-
+		this->index = new string[10];
+		this->nrOfIndex = 0;
 	}
 
 	COLLUMN(string colName, int size, string type)
@@ -97,6 +100,8 @@ public:
 	{
 		if (this != &c)
 		{
+			this->index = c.index;
+			this->nrOfIndex = c.nrOfIndex;
 			this->colName = c.colName;
 			this->type = c.type;
 			this->size = c.size;
@@ -112,6 +117,32 @@ public:
 
 	~COLLUMN() {
 
+	}
+
+	//verification of index name
+	bool indexVerification(string numeIndex)
+	{
+		int ok = 0;
+		for (int i = 0; i < nrOfIndex; i++)
+		{
+			if (this->index[i] == numeIndex)
+				ok++;
+
+		}
+		if (ok == 0)
+			return true;
+		else
+			return false;
+	}
+
+	//setter for index name
+	void setIndexName(string IndexName) {
+		this->index = IndexName;
+	}
+
+	//add index
+	void addIndex() {
+		this->nrOfIndex = nrOfIndex + 1;
 	}
 
 };
@@ -214,6 +245,11 @@ public:
 
 	}
 
+	void delNrofTables()
+	{
+		this->nrOfTables = nrOfTables - 1;
+	}
+
 	TABLE getTable(int nrOfTables)
 	{
 		return tabele[nrOfTables];
@@ -228,33 +264,33 @@ public:
 	}
 };
 
-//the class for indexes
-class INDEXES:COLLUMN{
-	string* indexName;
-	COLUMN* coloana;
 
-	INDEX() {
-		indexName = NULL;
-	}
 
-	INDEX(string* indexName) {
-		this->indexName = indexName;
-	}
-	
-	~INDEX() {
-	
-	}
+class CreateTable :ALLTables {
 
-	void setIndex() {
-		
-	}
+public:
 
-	string getIndex() {
-		if (this->indexName != NULL)
-			return this->indexName;
-		else
-			return "Index does not exist";
-	}
+
+
+
+};
+
+//class for the Drop Table command
+class DropTable {
+
+
+
+};
+//class for Display Table
+class DisplayTable {
+
+};
+
+class DropIndex {
+
+};
+
+class CreateIndex {
 
 };
 
@@ -353,15 +389,157 @@ void findMyCommand(char* command, ALLTables& database)
 
 			}
 		}
-		//create index-command
+
+		//create index - command
 		else if (strcmp(lower(secCommand), "index") == 0)
 		{
-			//the index name
 			secCommand = strtok_s(NULL, " ", &next_token);
-			//verify if we have an index name
+			//verify index name
 			if (secCommand != NULL) {
-				
+				s = lower(secCommand);
+				//index name
+				secCommand = strtok_s(NULL, " ", &next_token);
+				//we verify if the name of the index already exists
+				//we added a new function which verifies if the index exists already
+				if (database.indexVerification()) {
+					secCommand = strtok_s(NULL, " ", &next_token);
+					//we verify the word on
+					if (strcmp(lower(secCommand), "on") == 0) {
+						secCommand = strtok_s(NULL, " ", &next_token);
+						s = lower(secCommand);
+						//we verify the table name introduced
+						for (int i = 0; i < database.nrOfTables; i++) {
+							if (s == database.tabele[i].tableName) {
+								secCommand = strtok_s(NULL, " ,()", &next_token);
+								s = lower(secCommand);
+								//we verify the collumn name introduced
+								for (int j = 0; j < database.tabele[i].nrofCollumns; j++) {
+									if (s == database.tabele[i].coloana[j].colName) {
+										//we add a new object of class collumn
+										COLLUMN index1;
+										//we set the name for the index
+										//we add a new function which sets the name of the index
+										index1.setIndexName(s);
+										//we add the index to the no of indexes
+										//we add a new function which adds the no of Indexes
+										index1.addIndex();
+										cout << "Index was succesfully applied";
+									}
+									else {
+										cout << "The collumn name doesn't exist";
+									}
+								}
+							}
+							else
+							{
+								cout << "The table name doesn't exist";
+							}
+						}
+
+					}
+					else
+					{
+						//wrong input case
+					}
+				}
 			}
+		}
+		//wrong input case
+		else
+		{
+
+		}
+	}
+
+	//drop - command
+	else if (strcmp(lower(secCommand), "drop") == 0)
+	{
+		secCommand = strtok_s(NULL, " ", &next_token);
+
+		if (strcmp(lower(secCommand), "table") == 0)
+		{
+			secCommand = strtok_s(NULL, " ", &next_token);//table name
+			s = lower(secCommand);
+			int ok = 0;
+			int found = 0;
+			TABLE tabel2;
+			for (int i = 0; i < database.nrOfTables; i++)
+			{
+				if (database.tabele[i].tableName == s)
+				{
+					if (i == database.nrOfTables - 1)
+					{
+						database.tabele[i] = tabel2;
+						database.delNrofTables();
+						i--;
+						found++;
+					}
+					else
+					{
+						for (int j = i; j < database.nrOfTables - 1; j++)
+						{
+							database.tabele[j] = database.tabele[j + 1];
+						}
+						database.delNrofTables();
+						i--;
+						found++;
+					}
+
+				}
+			}
+
+			if (found)
+			{
+				cout << "Elemenst has been deleted" << endl;
+			}
+			else
+			{
+				cout << "Element not found";
+			}
+
+		}
+		//drop index - command
+		else if (strcmp(lower(secCommand), "index") == 0)
+		{
+			secCommand = strtok_s(NULL, " ", &next_token);//table name
+			s = lower(secCommand);
+			int found = 0;
+			COLLUMN index2;
+			for (int i = 0; i < database.nrOfTables; i++) {
+				for (int j = 0; j < database.tabele[i].nrofCollumns) {
+					if (s == database.tabele[i].coloana[j].index) {
+						found++;
+						i--;
+						database.tabele[i].index[j] = database.tabele[i].index[j + 1];
+					}
+				}
+			}
+			if (found)
+			{
+				cout << "Index has been deleted" << endl;
+			}
+			else
+			{
+				cout << "Index not found"<<endl;
+			}
+
+
+		}
+		//wrong input case
+		else {
+
+		}
+
+	}
+
+	//display - command
+	else if (strcmp(lower(secCommand), "display") == 0)
+	{
+		secCommand = strtok_s(NULL, " ", &next_token);
+		if (strcmp(lower(secCommand), "table") == 0)
+		{
+			//table name
+			secCommand = strtok_s(NULL, " ", &next_token);
 
 		}
 		//wrong input case
@@ -369,25 +547,11 @@ void findMyCommand(char* command, ALLTables& database)
 		{
 
 		}
-	}//drop - command
-	else if (strcmp(lower(secCommand), "drop") == 0)
-	{
-		secCommand = strtok_s(NULL, " ", &next_token);
 
-		if (strcmp(lower(secCommand), "table") == 0)
-		{
-
-		}
-		else if (strcmp(lower(secCommand), "index") == 0)
-		{
-			//index name
-			secCommand = strtok_s(NULL, " ", &next_token);
-
-		}
+	}
+	else
 		//wrong input case
-		else {
-
-		}
+	{
 
 	}
 
@@ -446,3 +610,5 @@ void findMyCommand(char* command, ALLTables& database)
 	//else if (strcmp(lower(secCommand), "update") == 0) {
 	//	secCommand = strtok_s(NULL, " ", &next_token);
 	//}
+
+}
