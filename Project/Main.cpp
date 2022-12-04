@@ -13,7 +13,7 @@ using namespace std;
 int main()
 {
 	char command[100];
-	cin.getline(command, 100);
+	/*cin.getline(command, 100);*/
 	int n = 10;
 
 
@@ -45,11 +45,20 @@ int main()
 
 	//create table tabelnou ((masini,char,20,logan),(clienti,char,10,marcel),(george,char,10,pensie)
 	//create table tabelnou2 ((masini,char,20,logan),(clienti,char,10,marcel),(george,char,10,pensie)
-	findMyCommand(command, database);
+	//delete from tabelnou where column_name = clienti
+	//insert into tabelnou (mercedes,danutz,salariu)
+	//insert into tabelnou (toyota,ion,bitcoin)
+
+	while (strcmp(command, "quit") != 0)
+	{
+		cin.getline(command, 100);
+		findMyCommand(command, database);
+	}
+	/*findMyCommand(command, database);
 	cin.getline(command, 100);
-	findMyCommand(command, database);
+	findMyCommand(command, database);*/
 	/*cin.getline(command, 100);
 	findMyCommand(command, database);*/
 	
-	cout << database.tabele[1].coloana[1].elemente[1].value;
+	cout << database.tabele[0].coloana[2].elemente[1].value;
 } 

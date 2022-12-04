@@ -1015,17 +1015,17 @@ void findMyCommand(char* command, ALLTables& database)
 							}
 							else
 							{
-								//wrong input
+								cout << "wrong sign";
 							}
 						}
 						else
 						{
-							//wrong input once again
+							cout << "wrong collumn name";
 						}
 					}
 					else
 					{
-						//wrong input baby
+						cout << "wrong where clause";
 					}
 					
 				}
@@ -1034,14 +1034,14 @@ void findMyCommand(char* command, ALLTables& database)
 		
 		else
 		{
-				//wrong input case
+			cout << "there is no from";
 		}
 
 	}
 	else
 		//wrong input case
 	{
-
+	
 	}
 
 	////insert into - command
