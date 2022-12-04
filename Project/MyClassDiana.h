@@ -144,6 +144,7 @@ public:
 	void addIndex() {
 		this->nrOfIndex = nrOfIndex + 1;
 	}
+
 };
 
 //the class for the table which inherits collumn
@@ -407,29 +408,32 @@ void findMyCommand(char* command, ALLTables& database)
 						secCommand = strtok_s(NULL, " ", &next_token);
 						s = lower(secCommand);
 						//we verify the table name introduced
-						if (strcmp(lower(secCommand), database.tabele->tableName) == 0) {
-							
-							secCommand = strtok_s(NULL, " ,()", &next_token);
-							s = lower(secCommand);
-							//we verify the collumn name introduced
-							if (strcmp(lower(secCommand), database.tabele->coloana->colName) == 0) {
-								//we add a new object of class collumn
-								COLLUMN index1;
-								//we set the name for the index
-								//we add a new function which sets the name of the index
-								index1.setIndexName(s);
-								//we add the index to the no of indexes
-								//we add a new function which adds the no of Indexes
-								index1.addIndex();
-								cout << "Index was succesfully applied";
+						for (int i = 0; i < database.nrOfTables; i++) {
+							if (s == database.tabele[i].tableName) {
+								secCommand = strtok_s(NULL, " ,()", &next_token);
+								s = lower(secCommand);
+								//we verify the collumn name introduced
+								for (int j = 0; j < database.tabele[i].nrofCollumns; j++) {
+									if (s == database.tabele[i].coloana[j].colName) {
+										//we add a new object of class collumn
+										COLLUMN index1;
+										//we set the name for the index
+										//we add a new function which sets the name of the index
+										index1.setIndexName(s);
+										//we add the index to the no of indexes
+										//we add a new function which adds the no of Indexes
+										index1.addIndex();
+										cout << "Index was succesfully applied";
+									}
+									else {
+										cout << "The collumn name doesn't exist";
+									}
+								}
 							}
-							else {
-								cout << "The collumn name doesn't exist";
+							else
+							{
+								cout << "The table name doesn't exist";
 							}
-						}
-						else
-						{
-							cout << "The table name doesn't exist";
 						}
 
 					}
@@ -494,8 +498,30 @@ void findMyCommand(char* command, ALLTables& database)
 			}
 
 		}
+		//drop index - command
 		else if (strcmp(lower(secCommand), "index") == 0)
 		{
+			secCommand = strtok_s(NULL, " ", &next_token);//table name
+			s = lower(secCommand);
+			int found = 0;
+			COLLUMN index2;
+			for (int i = 0; i < database.nrOfTables; i++) {
+				for (int j = 0; j < database.tabele[i].nrofCollumns) {
+					if (s == database.tabele[i].coloana[j].index) {
+						found++;
+						i--;
+						database.tabele[i].index[j] = database.tabele[i].index[j + 1];
+					}
+				}
+			}
+			if (found)
+			{
+				cout << "Index has been deleted" << endl;
+			}
+			else
+			{
+				cout << "Index not found"<<endl;
+			}
 
 
 		}
