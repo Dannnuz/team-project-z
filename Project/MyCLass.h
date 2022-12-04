@@ -504,7 +504,7 @@ void findMyCommand(char* command, ALLTables &database)
 								}
 								if (found)
 								{
-									cout << "Elemenst has been deleted" << endl;
+									cout << "Element has been deleted" << endl;
 								}
 								else
 								{

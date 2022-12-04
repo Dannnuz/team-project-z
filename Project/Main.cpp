@@ -54,11 +54,7 @@ int main()
 		cin.getline(command, 100);
 		findMyCommand(command, database);
 	}
-	/*findMyCommand(command, database);
-	cin.getline(command, 100);
-	findMyCommand(command, database);*/
-	/*cin.getline(command, 100);
-	findMyCommand(command, database);*/
+	
 	
 	cout << database.tabele[0].coloana[2].elemente[1].value;
 } 
