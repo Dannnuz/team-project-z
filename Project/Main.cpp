@@ -48,7 +48,7 @@ int main()
 	//delete from tabelnou where column_name = clienti
 	//insert into tabelnou (mercedes,danutz,salariu)
 	//insert into tabelnou (toyota,ion,bitcoin)
-
+	//display table tabelnou
 	while (strcmp(command, "quit") != 0)
 	{
 		cin.getline(command, 100);

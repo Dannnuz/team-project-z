@@ -442,6 +442,23 @@ void findMyCommand(char* command, ALLTables &database)
 		{
 			//table name
 			secCommand = strtok_s(NULL, " ", &next_token);
+			s = lower(secCommand);
+			for (int i = 0; i < database.nrOfTables; i++)
+			{
+				if (s == database.tabele[i].tableName)
+				{
+					cout << endl << database.tabele[i].tableName<<endl;
+					for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+					{
+						cout << database.tabele[i].coloana[j].colName<<endl;
+						for (int z = 0; z < database.tabele[i].coloana[j].nr_elemente;z++)
+						{
+							cout << database.tabele[i].coloana[j].elemente[z].value<<endl;
+						}
+						
+					}
+				}
+			}
 
 		}
 		//wrong input case
