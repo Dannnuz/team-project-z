@@ -57,5 +57,5 @@ int main()
 	}
 	
 	
-	cout << database.tabele[0].coloana[2].elemente[1].value;
+	cout << database.tabele[0].nrofCollumns;
 } 

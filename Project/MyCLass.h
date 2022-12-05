@@ -447,15 +447,17 @@ void findMyCommand(char* command, ALLTables &database)
 			{
 				if (s == database.tabele[i].tableName)
 				{
-					cout << endl << database.tabele[i].tableName<<endl;
+					
 					for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
 					{
-						cout << database.tabele[i].coloana[j].colName<<endl;
+						cout << database.tabele[i].coloana[j].colName<<"      ";
+
 						for (int z = 0; z < database.tabele[i].coloana[j].nr_elemente;z++)
 						{
-							cout << database.tabele[i].coloana[j].elemente[z].value<<endl;
+							cout << database.tabele[i].coloana[j].elemente[z].value;
+							cout << "          ";
 						}
-						
+						cout << endl;
 					}
 				}
 			}
@@ -525,22 +527,22 @@ void findMyCommand(char* command, ALLTables &database)
 								}
 								else
 								{
-									cout << "Element not found";
+									cout << "Element not found" << endl;
 								}
 							}
 							else
 							{
-								cout << "wrong sign";
+								cout << "wrong sign" << endl;
 							}
 						}
 						else
 						{
-							cout << "wrong collumn name";
+							cout << "wrong collumn name" << endl;
 						}
 					}
 					else
 					{
-						cout << "wrong where clause";
+						cout << "wrong where clause" << endl;
 					}
 
 				}
@@ -549,7 +551,7 @@ void findMyCommand(char* command, ALLTables &database)
 
 		else
 		{
-			cout << "there is no from";
+			cout << "there is no from" << endl;
 		}
 	}
 	
@@ -594,7 +596,7 @@ void findMyCommand(char* command, ALLTables &database)
 			{
 				secCommand = strtok_s(NULL, " ", &next_token);
 				s = lower(secCommand);
-				if (strcmp(lower(secCommand), "column_name") == 0)
+				if (strcmp(lower(secCommand), "column_name") == 0 )
 				{
 					secCommand = strtok_s(NULL, " ", &next_token);
 					s = lower(secCommand);
