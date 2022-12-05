@@ -580,6 +580,100 @@ void findMyCommand(char* command, ALLTables &database)
 
 
     }
+	else if (strcmp(lower(secCommand), "update") == 0)
+	{
+	secCommand = strtok_s(NULL, " ", &next_token);
+	s = lower(secCommand);
+	for (int i = 0; i < database.nrOfTables; i++)
+	{
+		if (s == database.tabele[i].tableName)
+		{
+			secCommand = strtok_s(NULL, " ", &next_token);
+			s = lower(secCommand);
+			if (strcmp(lower(secCommand), "set") == 0)
+			{
+				secCommand = strtok_s(NULL, " ", &next_token);
+				s = lower(secCommand);
+				if (strcmp(lower(secCommand), "column_name") == 0)
+				{
+					secCommand = strtok_s(NULL, " ", &next_token);
+					s = lower(secCommand);
+					if (strcmp(lower(secCommand), "=") == 0)
+					{
+						secCommand = strtok_s(NULL, " ", &next_token);
+						s = lower(secCommand);
+						//new collum name
+						string newName = s;
+						//where clause
+						secCommand = strtok_s(NULL, " ", &next_token);
+						s = lower(secCommand);
+						if (strcmp(lower(secCommand), "where") == 0)
+						{
+							secCommand = strtok_s(NULL, " ", &next_token);
+							s = lower(secCommand);
+							if (strcmp(lower(secCommand), "column_name") == 0)
+							{
+								secCommand = strtok_s(NULL, " ", &next_token);
+								s = lower(secCommand);
+								if (strcmp(lower(secCommand), "=") == 0)
+								{
+									//collumn name that must be changed
+									secCommand = strtok_s(NULL, " ", &next_token);
+									s = lower(secCommand);
+									for (int i = 0; i < database.nrOfTables; i++)
+									{
+										for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+										{
+											if (s == database.tabele[i].coloana[j].colName)
+											{
+												database.tabele[i].coloana[j].colName = newName;
+											}
+											
+										}
+									}
+							
+
+								}
+								else
+								{
+									cout << "there is no = sign" << endl;
+								}
+							}
+							else
+							{
+								cout << "there is no column_name" << endl;
+							}
+
+						}
+						else
+						{
+							cout << "there is no where clause" << endl;
+						}
+
+
+					}
+					else
+						cout << "there is no = sign"<<endl;
+				}
+				else
+				{
+					cout << "column_name is not writen correctly"<<endl;
+				}
+			}
+			else
+			{
+				cout << "there is no set clause"<<endl;
+			}
+
+		}
+		else
+		{
+			cout << "table name not found";
+		}
+	}
+
+
+    }
 
 	////insert into - command
 	//else if (strcmp(lower(secCommand), "insert") == 0)

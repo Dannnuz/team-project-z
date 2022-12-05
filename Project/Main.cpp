@@ -49,6 +49,7 @@ int main()
 	//insert into tabelnou (mercedes,danutz,salariu)
 	//insert into tabelnou (toyota,ion,bitcoin)
 	//display table tabelnou
+	//update tabelnou set column_name = masini_sport where column_name = masini
 	while (strcmp(command, "quit") != 0)
 	{
 		cin.getline(command, 100);
