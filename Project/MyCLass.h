@@ -11,7 +11,7 @@ public:
 
 	ELEMENTE()
 	{
-		this->value = ' ';
+		this->value = "";
 	}
 
 	void addElemente(string e)
@@ -51,11 +51,11 @@ public:
 	COLLUMN()
 	{
 		this->size = 0;
-		this->colName = ' ';
-		this->type = ' ';
+		this->colName = "";
+		this->type = "";
 		this->elemente = new ELEMENTE[10];
 		this->nr_elemente = 0;
-		this->index = ' ';
+		this->index = "";
 	}
 
 	COLLUMN(string colName, int size, string type)
@@ -130,7 +130,7 @@ public:
 
 	TABLE()
 	{
-		this->tableName = ' ';
+		this->tableName = "";
 		this->nrofCollumns = 0;
 		this->coloana = new COLLUMN[10];
 		
@@ -281,11 +281,11 @@ char* lower(char comanda[])
 }
 
 //function for validating and using the commands
-void findMyCommand(char* command, ALLTables &database)
+void findMyCommand(char* command, ALLTables& database)
 {
 	string s;
 	char* next_token;
-	char* secCommand = strtok_s(command," ", &next_token);
+	char* secCommand = strtok_s(command, " ", &next_token);
 	//Create - command
 	if (strcmp(lower(secCommand), "create") == 0)
 	{
@@ -315,7 +315,7 @@ void findMyCommand(char* command, ALLTables &database)
 
 
 						//column name
-						
+
 						s = lower(secCommand);
 
 						coloana1.setColName(s);//setter for collumn name
@@ -350,23 +350,81 @@ void findMyCommand(char* command, ALLTables &database)
 						secCommand = strtok_s(NULL, " ,()", &next_token);
 					}
 					//here we copy the table into the database
-					database.addNewTable(tabel1,database.nrOfTables);
+					database.addNewTable(tabel1, database.nrOfTables);
 					database.addTables();
 
 				}
 				else
 				{
 					cout << "The table's name is already in the database" << endl;
-					
+
 					//the table's name is already in the database
 				}
-				
-				
+
+
 
 			}
 		}
 		else if (strcmp(lower(secCommand), "index") == 0)
 		{
+			//index name
+
+			secCommand = strtok_s(NULL, " ", &next_token);
+			string indexName = lower(secCommand);
+			int ok = 0;
+			for (int i = 0; i < database.nrOfTables; i++)
+			{
+				for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+				{
+					if (database.tabele[i].coloana[j].index == indexName)
+					{
+						ok++;
+					}
+
+				}
+			}
+			if (ok == 0)
+			{
+				secCommand = strtok_s(NULL, " ", &next_token);
+				if (strcmp(lower(secCommand), "on") == 0)
+				{
+					//tablename
+					secCommand = strtok_s(NULL, " ", &next_token);
+					s = lower(secCommand);
+
+					for (int z = 0; z < database.nrOfTables; z++)
+					{
+						if (s == database.tabele[z].tableName)
+						{
+							secCommand = strtok_s(NULL, " ()", &next_token);
+							s = lower(secCommand);
+							for (int n = 0; n < database.tabele[z].nrofCollumns; n++)
+							{
+								if (s == database.tabele[z].coloana[n].colName)
+								{
+									database.tabele[z].coloana[n].index = indexName;
+									cout << "inedx created for column: " << database.tabele[z].coloana[n].colName << endl;
+								}
+							}
+						}
+						else
+						{
+							cout << "table name not found" << endl;
+						}
+					}
+
+				}
+				else
+				{
+					cout << "there is no on" << endl;
+				}
+
+			}
+			else
+			{
+				cout << " the collumn has an index already" << endl;
+			}
+
 
 		}
 		//wrong input case
@@ -376,63 +434,78 @@ void findMyCommand(char* command, ALLTables &database)
 		}
 	}//drop - command
 	else if (strcmp(lower(secCommand), "drop") == 0)
+	{
+		secCommand = strtok_s(NULL, " ", &next_token);
+
+		if (strcmp(lower(secCommand), "table") == 0)
 		{
-			secCommand = strtok_s(NULL, " ", &next_token);
-
-			if (strcmp(lower(secCommand), "table")==0)
+			secCommand = strtok_s(NULL, " ", &next_token);//table name
+			s = lower(secCommand);
+			int ok = 0;
+			int found = 0;
+			TABLE tabel2;
+			for (int i = 0; i < database.nrOfTables; i++)
 			{
-				secCommand = strtok_s(NULL, " ", &next_token);//table name
-				s = lower(secCommand);
-				int ok = 0;
-				int found = 0;
-				TABLE tabel2;
-				for (int i = 0; i < database.nrOfTables; i++)
+				if (database.tabele[i].tableName == s)
 				{
-					if (database.tabele[i].tableName == s)
+					if (i == database.nrOfTables - 1)
 					{
-						if (i == database.nrOfTables - 1)
-						{
-							database.tabele[i] = tabel2;
-							database.delNrofTables();
-							i--;
-							found++;
-						}
-						else
-						{
-							for (int j = i; j < database.nrOfTables - 1; j++)
-							{
-								database.tabele[j] = database.tabele[j + 1];
-							}
-							database.delNrofTables();
-							i--;
-							found++;
-						}
-						database.tabele[database.nrOfTables + 1] = tabel2;
+						database.tabele[i] = tabel2;
+						database.delNrofTables();
+						i--;
+						found++;
 					}
+					else
+					{
+						for (int j = i; j < database.nrOfTables - 1; j++)
+						{
+							database.tabele[j] = database.tabele[j + 1];
+						}
+						database.delNrofTables();
+						i--;
+						found++;
+					}
+					database.tabele[database.nrOfTables + 1] = tabel2;
 				}
-
-				if (found)
-				{
-					cout << "Elemenst has been deleted"<<endl;
-				}
-				else
-				{
-					cout << "Element not found";
-				}
-				
 			}
-			else if (strcmp(lower(secCommand), "index") == 0)
-				{
-				//index name
-				secCommand = strtok_s(NULL, " ", &next_token);
 
-				}
-			//wrong input case
-				else {
-
-				}
+			if (found)
+			{
+				cout << "Elemenst has been deleted" << endl;
+			}
+			else
+			{
+				cout << "Element not found";
+			}
 
 		}
+		else if (strcmp(lower(secCommand), "index") == 0)
+		{
+			//index name
+			secCommand = strtok_s(NULL, " ", &next_token);
+			s = lower(secCommand);
+
+			for (int i = 0; i < database.nrOfTables; i++)
+			{
+				for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+				{
+					if (database.tabele[i].coloana[j].index == s)
+					{
+						database.tabele[i].coloana[j].index = "";
+						cout << "index deleted" << endl;
+					}
+
+				}
+			}
+
+
+		}
+		//wrong input case
+		else {
+
+		}
+
+	}
 
 	//display - command
 	else if (strcmp(lower(secCommand), "display") == 0)
@@ -447,12 +520,12 @@ void findMyCommand(char* command, ALLTables &database)
 			{
 				if (s == database.tabele[i].tableName)
 				{
-					
+
 					for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
 					{
-						cout << database.tabele[i].coloana[j].colName<<"      ";
+						cout << database.tabele[i].coloana[j].colName << "      ";
 
-						for (int z = 0; z < database.tabele[i].coloana[j].nr_elemente;z++)
+						for (int z = 0; z < database.tabele[i].coloana[j].nr_elemente; z++)
 						{
 							cout << database.tabele[i].coloana[j].elemente[z].value;
 							cout << "          ";
@@ -498,7 +571,7 @@ void findMyCommand(char* command, ALLTables &database)
 								int found = 0;
 								for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
 								{
-									if (s==database.tabele[i].coloana[j].colName)
+									if (s == database.tabele[i].coloana[j].colName)
 									{
 										if (j == database.tabele[i].nrofCollumns - 1)
 										{
@@ -554,128 +627,136 @@ void findMyCommand(char* command, ALLTables &database)
 			cout << "there is no from" << endl;
 		}
 	}
-	
-	else if(strcmp(lower(secCommand),"insert")==0)
+
+	else if (strcmp(lower(secCommand), "insert") == 0)
 	{
-	secCommand = strtok_s(NULL, " ", &next_token);
-	if (strcmp(lower(secCommand), "into") == 0)
+		secCommand = strtok_s(NULL, " ", &next_token);
+		if (strcmp(lower(secCommand), "into") == 0)
+		{
+			secCommand = strtok_s(NULL, " ", &next_token);
+			s = lower(secCommand);
+
+			for (int i = 0; i < database.nrOfTables; i++)
+			{
+				if (s == database.tabele[i].tableName)
+				{
+					for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+					{
+						secCommand = strtok_s(NULL, " ,()", &next_token);
+						s = lower(secCommand);
+
+						database.tabele[i].coloana[j].elemente[database.tabele[i].coloana[j].nr_elemente].value = s;
+						database.tabele[i].coloana[j].addNrElemente();
+					}
+				}
+			}
+		}
+
+
+
+	}
+	else if (strcmp(lower(secCommand), "update") == 0)
 	{
 		secCommand = strtok_s(NULL, " ", &next_token);
 		s = lower(secCommand);
-	
 		for (int i = 0; i < database.nrOfTables; i++)
 		{
 			if (s == database.tabele[i].tableName)
 			{
-				for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
-				{
-					secCommand = strtok_s(NULL, " ,()", &next_token);
-					s = lower(secCommand);
-
-					database.tabele[i].coloana[j].elemente[database.tabele[i].coloana[j].nr_elemente].value = s;
-					database.tabele[i].coloana[j].addNrElemente();
-				}
-			}
-		}
-	}
-
-
-
-    }
-	else if (strcmp(lower(secCommand), "update") == 0)
-	{
-	secCommand = strtok_s(NULL, " ", &next_token);
-	s = lower(secCommand);
-	for (int i = 0; i < database.nrOfTables; i++)
-	{
-		if (s == database.tabele[i].tableName)
-		{
-			secCommand = strtok_s(NULL, " ", &next_token);
-			s = lower(secCommand);
-			if (strcmp(lower(secCommand), "set") == 0)
-			{
 				secCommand = strtok_s(NULL, " ", &next_token);
 				s = lower(secCommand);
-				if (strcmp(lower(secCommand), "column_name") == 0 )
+				if (strcmp(lower(secCommand), "set") == 0)
 				{
 					secCommand = strtok_s(NULL, " ", &next_token);
 					s = lower(secCommand);
-					if (strcmp(lower(secCommand), "=") == 0)
+					if (strcmp(lower(secCommand), "column_name") == 0)
 					{
 						secCommand = strtok_s(NULL, " ", &next_token);
 						s = lower(secCommand);
-						//new collum name
-						string newName = s;
-						//where clause
-						secCommand = strtok_s(NULL, " ", &next_token);
-						s = lower(secCommand);
-						if (strcmp(lower(secCommand), "where") == 0)
+						if (strcmp(lower(secCommand), "=") == 0)
 						{
 							secCommand = strtok_s(NULL, " ", &next_token);
 							s = lower(secCommand);
-							if (strcmp(lower(secCommand), "column_name") == 0)
+							//new collum name
+							string newName = s;
+							//where clause
+							secCommand = strtok_s(NULL, " ", &next_token);
+							s = lower(secCommand);
+							if (strcmp(lower(secCommand), "where") == 0)
 							{
 								secCommand = strtok_s(NULL, " ", &next_token);
 								s = lower(secCommand);
-								if (strcmp(lower(secCommand), "=") == 0)
+								if (strcmp(lower(secCommand), "column_name") == 0)
 								{
-									//collumn name that must be changed
 									secCommand = strtok_s(NULL, " ", &next_token);
 									s = lower(secCommand);
-									for (int i = 0; i < database.nrOfTables; i++)
+									if (strcmp(lower(secCommand), "=") == 0)
 									{
-										for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+										//collumn name that must be changed
+										secCommand = strtok_s(NULL, " ", &next_token);
+										s = lower(secCommand);
+										for (int i = 0; i < database.nrOfTables; i++)
 										{
-											if (s == database.tabele[i].coloana[j].colName)
+											for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
 											{
-												database.tabele[i].coloana[j].colName = newName;
-											}
-											
-										}
-									}
-							
+												if (s == database.tabele[i].coloana[j].colName)
+												{
+													database.tabele[i].coloana[j].colName = newName;
+												}
 
+											}
+										}
+
+
+									}
+									else
+									{
+										cout << "there is no = sign" << endl;
+									}
 								}
 								else
 								{
-									cout << "there is no = sign" << endl;
+									cout << "there is no column_name" << endl;
 								}
+
 							}
 							else
 							{
-								cout << "there is no column_name" << endl;
+								cout << "there is no where clause" << endl;
 							}
+
 
 						}
 						else
-						{
-							cout << "there is no where clause" << endl;
-						}
-
-
+							cout << "there is no = sign" << endl;
 					}
 					else
-						cout << "there is no = sign"<<endl;
+					{
+						cout << "column_name is not writen correctly" << endl;
+					}
 				}
 				else
 				{
-					cout << "column_name is not writen correctly"<<endl;
+					cout << "there is no set clause" << endl;
 				}
+
 			}
 			else
 			{
-				cout << "there is no set clause"<<endl;
+				cout << "table name not found";
 			}
+		}
 
-		}
-		else
-		{
-			cout << "table name not found";
-		}
+
 	}
+	else if (strcmp(lower(secCommand), "select") == 0)
+	{
+	secCommand = strtok_s(NULL, " ", &next_token);
 
 
-    }
+ }
+
+}
 
 	////insert into - command
 	//else if (strcmp(lower(secCommand), "insert") == 0)
@@ -733,4 +814,3 @@ void findMyCommand(char* command, ALLTables &database)
 	//	secCommand = strtok_s(NULL, " ", &next_token);
 	//}
 
-}

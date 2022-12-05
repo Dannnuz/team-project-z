@@ -50,6 +50,8 @@ int main()
 	//insert into tabelnou (toyota,ion,bitcoin)
 	//display table tabelnou
 	//update tabelnou set column_name = masini_sport where column_name = masini
+	//create index coloana_cool on tabelnou (masini)
+	//drop index coloana_cool
 	while (strcmp(command, "quit") != 0)
 	{
 		cin.getline(command, 100);
