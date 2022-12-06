@@ -115,7 +115,7 @@ public:
 
 
 	~COLLUMN() {
-		
+		delete[] elemente;
 	}
 
 };
@@ -178,8 +178,8 @@ public:
 
 	~TABLE()
 	{
-		//it erases the adress of the vector
-
+		
+		
 	}
 
 };
@@ -236,7 +236,7 @@ public:
 	}
 
 	~ALLTables() {
-		
+		delete[] tabele;
 	}
 };
 
