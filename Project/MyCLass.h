@@ -520,15 +520,38 @@ void findMyCommand(char* command, ALLTables& database)
 			{
 				if (s == database.tabele[i].tableName)
 				{
-
+					cout << " id ";
+					for (int m = 0; m < 6; m++)
+					{
+						cout << " ";
+					}
 					for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
 					{
-						cout << database.tabele[i].coloana[j].colName << "      ";
-
-						for (int z = 0; z < database.tabele[i].coloana[j].nr_elemente; z++)
+						cout << database.tabele[i].coloana[j].colName;
+						int l = database.tabele[i].coloana[j].colName.length();
+						for (int m = 0; m < 25 - l; m++)
 						{
+							cout << " ";
+						}
+
+					}
+					cout <<"\n\n";
+					for (int z = 0; z < database.tabele[i].coloana[0].nr_elemente; z++)
+					{
+						cout << " " << z << " ";
+						for (int m = 0; m < 7; m++)
+						{
+							cout << " ";
+						}
+						for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+						{
+							
 							cout << database.tabele[i].coloana[j].elemente[z].value;
-							cout << "          ";
+							int l = database.tabele[i].coloana[j].elemente[z].value.length();
+							for (int m = 0; m < 25 - l; m++)
+							{
+								cout << " ";
+							}
 						}
 						cout << endl;
 					}
