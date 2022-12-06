@@ -242,34 +242,6 @@ public:
 
 
 
-class CreateTable:ALLTables{
-	
-public:
-	
-
-
-	
-};
-
-//class for the Drop Table command
-class DropTable {
-
-
-
-};
-//class for Display Table
-class DisplayTable {
-
-};
-
-class DropIndex {
-
-};
-
-class CreateIndex {
-
-};
-
 char* lower(char comanda[])
 {
 	for (int i = 0; comanda[i] != NULL; i++)
@@ -364,6 +336,9 @@ void findMyCommand(char* command, ALLTables& database)
 
 
 			}
+			else {
+				cout << "there is no input"<<endl;
+			}
 		}
 		else if (strcmp(lower(secCommand), "index") == 0)
 		{
@@ -430,6 +405,7 @@ void findMyCommand(char* command, ALLTables& database)
 		//wrong input case
 		else
 		{
+		cout << " create command wrong format" << endl;
 
 		}
 	}//drop - command
@@ -778,62 +754,9 @@ void findMyCommand(char* command, ALLTables& database)
 
 
  }
+	else
+	cout << "Wrong input" << endl;
+ }
 
-}
-
-	////insert into - command
-	//else if (strcmp(lower(secCommand), "insert") == 0)
-	//{
-	//	secCommand = strtok_s(NULL, " ", &next_token);
-	//	if (strcmp(lower(secCommand), "into") == 0)
-	//	{
-	//		secCommand = strtok_s(NULL, " ", &next_token);
-	//	}
-	//	else
-	//	{
-	//		//wrong input case
-	//	}
-
-	//}
-
-	////delete from - command
-	//else if (strcmp(lower(secCommand), "delete") == 0)
-	//{
-	//	secCommand = strtok_s(NULL, " ", &next_token);
-	//	if (strcmp(lower(secCommand), "from") == 0)
-	//	{
-	//		secCommand = strtok_s(NULL, "", &next_token);
-	//	}
-	//	else
-	//	{
-	//		//wrong input case
-	//	}
-	//}
-
-	////select from - command
-	//else if (strcmp(lower(secComand), "select") == 0)
-	//{
-	//	secCommand = strtok_s(NULL, " ", &next_token);
-	//	if (strcmp(lower(secCommand), "all") == 0)
-	//	{
-	//		secCommand = strtok_s(NULL, " ", &next_token);
-	//		if (strcmp(lower(secCommand), "from") == 0)
-	//		{
-	//			secCommand = strtok_s(NULL, " ", &next_token);
-	//		}
-	//		else
-	//		{
-	//			//wrong input case
-	//		}
-	//	}
-	//	else
-	//	{
-	//		//wrong input case
-	//	}
-	//}
-
-	////update - command
-	//else if (strcmp(lower(secCommand), "update") == 0) {
-	//	secCommand = strtok_s(NULL, " ", &next_token);
-	//}
+	
 
