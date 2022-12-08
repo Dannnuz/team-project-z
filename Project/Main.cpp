@@ -19,7 +19,7 @@ int main()
 	//THESE ARE COMMANDS VERIFIED THAT WORK
 	
 	
-	//create table tabelnou ((masini,text,20,logan),(clienti,text,10,marcel),(venit_luna,text,10,pensie))
+	//create table tabelnou ((masini,text,20,logan),(clienti,text,10,marcel),(venit_lunar,text,10,pensie))
 	
 	//delete from tabelnou where column_name = clienti
 	
@@ -43,7 +43,7 @@ int main()
 	
 	while (strcmp(command, "quit") != 0)
 	{
-		cin.getline(command, 100);
+		cin.getline(command, 200);
 		findMyCommand(command, database);
 		
 	}
