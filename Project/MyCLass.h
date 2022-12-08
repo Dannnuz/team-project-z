@@ -259,7 +259,7 @@ void findMyCommand(char* command, ALLTables& database)
 	char* next_token;
 	char* secCommand = strtok_s(command, " ", &next_token);
 	//Create - command
-	if (strcmp(lower(secCommand), "create") == 0)
+	if (secCommand != NULL && strcmp(lower(secCommand), "create") == 0)
 	{
 		secCommand = strtok_s(NULL, " ", &next_token);
 
@@ -514,7 +514,7 @@ void findMyCommand(char* command, ALLTables& database)
 					cout <<"\n\n";
 					for (int z = 0; z < database.tabele[i].coloana[0].nr_elemente; z++)
 					{
-						cout << " " << z << " ";
+						cout << " " << z+1 << " ";
 						for (int m = 0; m < 7; m++)
 						{
 							cout << " ";

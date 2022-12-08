@@ -12,16 +12,14 @@ using namespace std;
 
 int main()
 {
-	char command[100];
+	char command[200];
 	
-	int n = 10;
-
 	ALLTables database;
 	
 	//THESE ARE COMMANDS VERIFIED THAT WORK
-	//create table tabelnou ((masini,text,20,logan),(clienti,text,10,marcel),(venit_lunar,text,10,pensie))
 	
-	//create table tabelnou2 ((case,text,20,vila),(locatii,text,10,grozavesti),(pret,int,10,30000))
+	
+	//create table tabelnou ((masini,text,20,logan),(clienti,text,10,marcel),(venit_luna,text,10,pensie))
 	
 	//delete from tabelnou where column_name = clienti
 	
@@ -42,10 +40,12 @@ int main()
 	//select all from tabelnou where id = 2
 
 	//here is a loop where we can introduce commands an modify the database
+	
 	while (strcmp(command, "quit") != 0)
 	{
 		cin.getline(command, 100);
 		findMyCommand(command, database);
+		
 	}
 	
 
