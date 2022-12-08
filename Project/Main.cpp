@@ -46,7 +46,6 @@ int main()
 	//MENTIONS
 	//The preoject works just fine for commands that are written correctly( I couldn't manage to create 
 	//a function that verify if the input between paranthesis is correct) 
-	//select command is not finished
 	//there is still a lot of work to do,but we are working on it
 	//sorry for not being able to complete phase 1 entirely by the deadline
 
