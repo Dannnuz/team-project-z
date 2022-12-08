@@ -28,7 +28,7 @@ int main()
 	//update tabelnou set column_name = masini_sport where column_name = masini
 	//create index coloana_cool on tabelnou (masini)
 	//drop index coloana_cool
-	//select masini from tabelnou where id = 1
+	//select masini_sport from tabelnou where id = 1
 	//select all from tabelnou where id = 2
 	// 
 	//here is a loop where we can introduce commands an modify the database

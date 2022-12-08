@@ -263,7 +263,7 @@ void findMyCommand(char* command, ALLTables& database)
 	{
 		secCommand = strtok_s(NULL, " ", &next_token);
 
-		if (strcmp(lower(secCommand), "table") == 0)
+		if (secCommand != NULL && strcmp(lower(secCommand), "table") == 0)
 		{
 			//the table's name
 			secCommand = strtok_s(NULL, " ", &next_token);
@@ -340,7 +340,7 @@ void findMyCommand(char* command, ALLTables& database)
 				cout << "there is no input"<<endl;
 			}
 		}
-		else if (strcmp(lower(secCommand), "index") == 0)
+		else if (secCommand != NULL && strcmp(lower(secCommand), "index") == 0)
 		{
 			//index name
 
@@ -361,7 +361,7 @@ void findMyCommand(char* command, ALLTables& database)
 			if (ok == 0)
 			{
 				secCommand = strtok_s(NULL, " ", &next_token);
-				if (strcmp(lower(secCommand), "on") == 0)
+				if (secCommand != NULL && strcmp(lower(secCommand), "on") == 0)
 				{
 					//tablename
 					secCommand = strtok_s(NULL, " ", &next_token);
@@ -409,11 +409,11 @@ void findMyCommand(char* command, ALLTables& database)
 
 		}
 	}//drop - command
-	else if (strcmp(lower(secCommand), "drop") == 0)
+	else if (secCommand != NULL && strcmp(lower(secCommand), "drop") == 0)
 	{
 		secCommand = strtok_s(NULL, " ", &next_token);
 
-		if (strcmp(lower(secCommand), "table") == 0)
+		if (secCommand != NULL && strcmp(lower(secCommand), "table") == 0)
 		{
 			secCommand = strtok_s(NULL, " ", &next_token);//table name
 			s = lower(secCommand);
@@ -455,7 +455,7 @@ void findMyCommand(char* command, ALLTables& database)
 			}
 
 		}
-		else if (strcmp(lower(secCommand), "index") == 0)
+		else if (secCommand != NULL && strcmp(lower(secCommand), "index") == 0)
 		{
 			//index name
 			secCommand = strtok_s(NULL, " ", &next_token);
@@ -484,10 +484,10 @@ void findMyCommand(char* command, ALLTables& database)
 	}
 
 	//display - command
-	else if (strcmp(lower(secCommand), "display") == 0)
+	else if (secCommand != NULL && strcmp(lower(secCommand), "display") == 0)
 	{
 		secCommand = strtok_s(NULL, " ", &next_token);
-		if (strcmp(lower(secCommand), "table") == 0)
+		if (secCommand != NULL && strcmp(lower(secCommand), "table") == 0)
 		{
 			//table name
 			secCommand = strtok_s(NULL, " ", &next_token);
@@ -542,11 +542,11 @@ void findMyCommand(char* command, ALLTables& database)
 		}
 
 	}
-	else if (strcmp(lower(secCommand), "delete") == 0)
+	else if (secCommand != NULL && strcmp(lower(secCommand), "delete") == 0)
 	{
 		secCommand = strtok_s(NULL, " ", &next_token);
 
-		if (strcmp(lower(secCommand), "from") == 0)
+		if (secCommand != NULL && strcmp(lower(secCommand), "from") == 0)
 		{
 			//table name
 			secCommand = strtok_s(NULL, " ", &next_token);
@@ -556,13 +556,13 @@ void findMyCommand(char* command, ALLTables& database)
 				if (database.tabele[i].tableName == s)
 				{
 					secCommand = strtok_s(NULL, " ", &next_token);
-					if (strcmp(lower(secCommand), "where") == 0)
+					if (secCommand != NULL && strcmp(lower(secCommand), "where") == 0)
 					{
 						secCommand = strtok_s(NULL, " ", &next_token);
-						if (strcmp(lower(secCommand), "column_name") == 0)
+						if (secCommand != NULL && strcmp(lower(secCommand), "column_name") == 0)
 						{
 							secCommand = strtok_s(NULL, " ", &next_token);
-							if (strcmp(lower(secCommand), "=") == 0)
+							if (secCommand != NULL && strcmp(lower(secCommand), "=") == 0)
 							{
 								secCommand = strtok_s(NULL, " ", &next_token);
 								s = lower(secCommand);
@@ -627,10 +627,10 @@ void findMyCommand(char* command, ALLTables& database)
 		}
 	}
 
-	else if (strcmp(lower(secCommand), "insert") == 0)
+	else if (secCommand != NULL && strcmp(lower(secCommand), "insert") == 0)
 	{
 		secCommand = strtok_s(NULL, " ", &next_token);
-		if (strcmp(lower(secCommand), "into") == 0)
+		if (secCommand != NULL && strcmp(lower(secCommand), "into") == 0)
 		{
 			secCommand = strtok_s(NULL, " ", &next_token);
 			s = lower(secCommand);
@@ -654,7 +654,7 @@ void findMyCommand(char* command, ALLTables& database)
 
 
 	}
-	else if (strcmp(lower(secCommand), "update") == 0)
+	else if (secCommand != NULL && strcmp(lower(secCommand), "update") == 0)
 	{
 		secCommand = strtok_s(NULL, " ", &next_token);
 		s = lower(secCommand);
@@ -664,15 +664,15 @@ void findMyCommand(char* command, ALLTables& database)
 			{
 				secCommand = strtok_s(NULL, " ", &next_token);
 				s = lower(secCommand);
-				if (strcmp(lower(secCommand), "set") == 0)
+				if (secCommand != NULL && strcmp(lower(secCommand), "set") == 0)
 				{
 					secCommand = strtok_s(NULL, " ", &next_token);
 					s = lower(secCommand);
-					if (strcmp(lower(secCommand), "column_name") == 0)
+					if (secCommand != NULL && strcmp(lower(secCommand), "column_name") == 0)
 					{
 						secCommand = strtok_s(NULL, " ", &next_token);
 						s = lower(secCommand);
-						if (strcmp(lower(secCommand), "=") == 0)
+						if (secCommand != NULL && strcmp(lower(secCommand), "=") == 0)
 						{
 							secCommand = strtok_s(NULL, " ", &next_token);
 							s = lower(secCommand);
@@ -681,15 +681,15 @@ void findMyCommand(char* command, ALLTables& database)
 							//where clause
 							secCommand = strtok_s(NULL, " ", &next_token);
 							s = lower(secCommand);
-							if (strcmp(lower(secCommand), "where") == 0)
+							if (secCommand != NULL && strcmp(lower(secCommand), "where") == 0)
 							{
 								secCommand = strtok_s(NULL, " ", &next_token);
 								s = lower(secCommand);
-								if (strcmp(lower(secCommand), "column_name") == 0)
+								if (secCommand != NULL && strcmp(lower(secCommand), "column_name") == 0)
 								{
 									secCommand = strtok_s(NULL, " ", &next_token);
 									s = lower(secCommand);
-									if (strcmp(lower(secCommand), "=") == 0)
+									if (secCommand != NULL && strcmp(lower(secCommand), "=") == 0)
 									{
 										//collumn name that must be changed
 										secCommand = strtok_s(NULL, " ", &next_token);
@@ -748,17 +748,17 @@ void findMyCommand(char* command, ALLTables& database)
 
 
 	}
-	else if (strcmp(lower(secCommand), "select") == 0)
+	else if (secCommand != NULL && strcmp(lower(secCommand), "select") == 0)
 	{
 	
 	secCommand = strtok_s(NULL, " ,()", &next_token);
-	if (strcmp(lower(secCommand), "all") != 0) 
+	if (secCommand != NULL && strcmp(lower(secCommand), "all") != 0)
 	{
 		int nr_col = 0;
 		int cols[10];
 		for (int i = 0; i < 10; i++)
 			cols[i] = 0;
-		while (strcmp(lower(secCommand), "from") != 0)
+		while (secCommand != NULL && strcmp(lower(secCommand), "from") != 0)
 		{
 			//collumn name
 			
@@ -776,7 +776,7 @@ void findMyCommand(char* command, ALLTables& database)
 			secCommand = strtok_s(NULL, " ,()", &next_token);
 		}
 
-		if (strcmp(lower(secCommand), "from") == 0)
+		if (secCommand != NULL && strcmp(lower(secCommand), "from") == 0)
 		{
 			//table name
 			secCommand = strtok_s(NULL, " ,()", &next_token);
@@ -789,10 +789,10 @@ void findMyCommand(char* command, ALLTables& database)
 					if (secCommand!=NULL && strcmp(lower(secCommand), "where") == 0)
 					{
 						secCommand = strtok_s(NULL, " ", &next_token);
-						if (strcmp(lower(secCommand), "id") == 0)
+						if (secCommand != NULL && strcmp(lower(secCommand), "id") == 0)
 						{
 							secCommand = strtok_s(NULL, " ", &next_token);
-							if (strcmp(lower(secCommand), "=") == 0)
+							if (secCommand != NULL && strcmp(lower(secCommand), "=") == 0)
 							{
 								//id value
 								secCommand = strtok_s(NULL, " ", &next_token);
@@ -908,10 +908,10 @@ void findMyCommand(char* command, ALLTables& database)
 
 
 	}
-	else if (strcmp(lower(secCommand), "all") == 0)
+	else if (secCommand != NULL && strcmp(lower(secCommand), "all") == 0)
 	{
 	secCommand = strtok_s(NULL, " ,()", &next_token);
-	if (strcmp(lower(secCommand), "from") == 0)
+	if (secCommand != NULL && strcmp(lower(secCommand), "from") == 0)
 	{
 		secCommand = strtok_s(NULL, " ,()", &next_token);
 		s = lower(secCommand);
@@ -923,10 +923,10 @@ void findMyCommand(char* command, ALLTables& database)
 				if (secCommand != NULL && strcmp(lower(secCommand), "where") == 0)
 				{
 					secCommand = strtok_s(NULL, " ", &next_token);
-					if (strcmp(lower(secCommand), "id") == 0)
+					if (secCommand != NULL && strcmp(lower(secCommand), "id") == 0)
 					{
 						secCommand = strtok_s(NULL, " ", &next_token);
-						if (strcmp(lower(secCommand), "=") == 0)
+						if (secCommand != NULL && strcmp(lower(secCommand), "=") == 0)
 						{
 							//id value
 							secCommand = strtok_s(NULL, " ", &next_token);
