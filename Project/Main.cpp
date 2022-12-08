@@ -28,7 +28,9 @@ int main()
 	//update tabelnou set column_name = masini_sport where column_name = masini
 	//create index coloana_cool on tabelnou (masini)
 	//drop index coloana_cool
-
+	//select masini from tabelnou where id = 1
+	//select all from tabelnou where id = 2
+	// 
 	//here is a loop where we can introduce commands an modify the database
 	while (strcmp(command, "quit") != 0)
 	{
@@ -36,6 +38,11 @@ int main()
 		findMyCommand(command, database);
 	}
 	
+
+	
+
+	
+
 	//MENTIONS
 	//The preoject works just fine for commands that are written correctly( I couldn't manage to create 
 	//a function that verify if the input between paranthesis is correct) 

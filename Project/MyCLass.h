@@ -750,8 +750,301 @@ void findMyCommand(char* command, ALLTables& database)
 	}
 	else if (strcmp(lower(secCommand), "select") == 0)
 	{
-	secCommand = strtok_s(NULL, " ", &next_token);
+	
+	secCommand = strtok_s(NULL, " ,()", &next_token);
+	if (strcmp(lower(secCommand), "all") != 0) 
+	{
+		int nr_col = 0;
+		int cols[10];
+		for (int i = 0; i < 10; i++)
+			cols[i] = 0;
+		while (strcmp(lower(secCommand), "from") != 0)
+		{
+			//collumn name
+			
+			s = lower(secCommand);
+			for (int i = 0; i < database.nrOfTables; i++)
+			{
+				for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+				{
+					if (database.tabele[i].coloana[j].colName == s)
+					{
+                     cols[j]++;
+					}
+				}
+			}
+			secCommand = strtok_s(NULL, " ,()", &next_token);
+		}
 
+		if (strcmp(lower(secCommand), "from") == 0)
+		{
+			//table name
+			secCommand = strtok_s(NULL, " ,()", &next_token);
+			s = lower(secCommand);
+			for (int i = 0; i < database.nrOfTables; i++)
+			{
+				if (database.tabele[i].tableName == s)
+				{
+					secCommand = strtok_s(NULL, " ", &next_token);
+					if (secCommand!=NULL && strcmp(lower(secCommand), "where") == 0)
+					{
+						secCommand = strtok_s(NULL, " ", &next_token);
+						if (strcmp(lower(secCommand), "id") == 0)
+						{
+							secCommand = strtok_s(NULL, " ", &next_token);
+							if (strcmp(lower(secCommand), "=") == 0)
+							{
+								//id value
+								secCommand = strtok_s(NULL, " ", &next_token);
+								int id = atoi(secCommand);
+
+								cout << " id ";
+								for (int m = 0; m < 6; m++)
+								{
+									cout << " ";
+								}
+								for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+								{
+									if (cols[j] == 1)
+									{
+										cout << database.tabele[i].coloana[j].colName;
+										int l = database.tabele[i].coloana[j].colName.length();
+										for (int m = 0; m < 25 - l; m++)
+										{
+											cout << " ";
+										}
+									}
+
+								}
+								cout << "\n\n";
+								
+								
+									cout << " " << id << " ";
+									for (int m = 0; m < 7; m++)
+									{
+										cout << " ";
+									}
+									for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+									{
+										if (cols[j] == 1)
+										{
+											cout << database.tabele[i].coloana[j].elemente[id-1].value;
+											int l = database.tabele[i].coloana[j].elemente[id-1].value.length();
+											for (int m = 0; m < 25 - l; m++)
+											{
+												cout << " ";
+											}
+										}
+									}
+									cout << endl;
+								
+
+
+							}
+							else
+							{
+								cout << "there is no = sign" << endl;
+							}
+						}
+						else
+						{
+							cout << "there is no id" << endl;
+						}
+					}
+					else 
+					{
+
+						cout << " id ";
+						for (int m = 0; m < 6; m++)
+						{
+							cout << " ";
+						}
+						for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+						{
+							if (cols[j] == 1)
+							{
+								cout << database.tabele[i].coloana[j].colName;
+								int l = database.tabele[i].coloana[j].colName.length();
+								for (int m = 0; m < 25 - l; m++)
+								{
+									cout << " ";
+								}
+							}
+							
+						}
+						cout << "\n\n";
+						for (int z = 0; z < database.tabele[i].coloana[0].nr_elemente; z++)
+						{
+							cout << " " << z+1 << " ";
+							for (int m = 0; m < 7; m++)
+							{
+								cout << " ";
+							}
+							for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+							{
+								if (cols[j] == 1)
+								{
+									cout << database.tabele[i].coloana[j].elemente[z].value;
+									int l = database.tabele[i].coloana[j].elemente[z].value.length();
+									for (int m = 0; m < 25 - l; m++)
+									{
+										cout << " ";
+									}
+								}
+							}
+							cout << endl;
+						}
+					}
+				}
+				else
+				{
+				cout << "there is no such table" << endl;
+ }
+
+			}
+		}
+
+
+
+
+	}
+	else if (strcmp(lower(secCommand), "all") == 0)
+	{
+	secCommand = strtok_s(NULL, " ,()", &next_token);
+	if (strcmp(lower(secCommand), "from") == 0)
+	{
+		secCommand = strtok_s(NULL, " ,()", &next_token);
+		s = lower(secCommand);
+		for (int i = 0; i < database.nrOfTables; i++)
+		{
+			if (database.tabele[i].tableName == s)
+			{
+				secCommand = strtok_s(NULL, " ", &next_token);
+				if (secCommand != NULL && strcmp(lower(secCommand), "where") == 0)
+				{
+					secCommand = strtok_s(NULL, " ", &next_token);
+					if (strcmp(lower(secCommand), "id") == 0)
+					{
+						secCommand = strtok_s(NULL, " ", &next_token);
+						if (strcmp(lower(secCommand), "=") == 0)
+						{
+							//id value
+							secCommand = strtok_s(NULL, " ", &next_token);
+							int id = atoi(secCommand);
+
+							cout << " id ";
+							for (int m = 0; m < 6; m++)
+							{
+								cout << " ";
+							}
+							for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+							{
+								
+								
+									cout << database.tabele[i].coloana[j].colName;
+									int l = database.tabele[i].coloana[j].colName.length();
+									for (int m = 0; m < 25 - l; m++)
+									{
+										cout << " ";
+									}
+								
+
+							}
+							cout << "\n\n";
+
+
+							cout << " " << id << " ";
+							for (int m = 0; m < 7; m++)
+							{
+								cout << " ";
+							}
+							for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+							{
+								
+								
+									cout << database.tabele[i].coloana[j].elemente[id - 1].value;
+									int l = database.tabele[i].coloana[j].elemente[id - 1].value.length();
+									for (int m = 0; m < 25 - l; m++)
+									{
+										cout << " ";
+									}
+								
+							}
+							cout << endl;
+
+
+
+						}
+						else
+						{
+							cout << "there is no = sign" << endl;
+						}
+					}
+					else
+					{
+						cout << "there is no id" << endl;
+					}
+				}
+				else
+				{
+
+					cout << " id ";
+					for (int m = 0; m < 6; m++)
+					{
+						cout << " ";
+					}
+					for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+					{
+						
+						
+							cout << database.tabele[i].coloana[j].colName;
+							int l = database.tabele[i].coloana[j].colName.length();
+							for (int m = 0; m < 25 - l; m++)
+							{
+								cout << " ";
+							}
+						
+
+					}
+					cout << "\n\n";
+					for (int z = 0; z < database.tabele[i].coloana[0].nr_elemente; z++)
+					{
+						cout << " " << z + 1 << " ";
+						for (int m = 0; m < 7; m++)
+						{
+							cout << " ";
+						}
+						for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+						{
+							
+							
+								cout << database.tabele[i].coloana[j].elemente[z].value;
+								int l = database.tabele[i].coloana[j].elemente[z].value.length();
+								for (int m = 0; m < 25 - l; m++)
+								{
+									cout << " ";
+								}
+							
+						}
+						cout << endl;
+					}
+				}
+			}
+			else
+			{
+				cout << "there is no such table" << endl;
+			}
+
+		}
+
+
+	}
+	else
+	{
+		cout << "there is no from"<<endl;
+	}
+
+ }
 
  }
 	else
