@@ -1,6 +1,7 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
-#include <vector>
+
+
 using namespace std;
 
 //the class for the elements
@@ -48,6 +49,7 @@ public:
 	ELEMENTE* elemente;
 	int nr_elemente;
 	string index;
+	string defaultValue;
 	COLLUMN()
 	{
 		this->size = 0;
@@ -56,6 +58,7 @@ public:
 		this->elemente = new ELEMENTE[10];
 		this->nr_elemente = 0;
 		this->index = "";
+		this->defaultValue = "";
 	}
 
 	COLLUMN(string colName, int size, string type)
@@ -93,7 +96,10 @@ public:
 	{
 		this->nr_elemente = nr_elemente + 1;
 	}
-
+	void addDefault(string s)
+	{
+		this->defaultValue = s;
+	}
 	COLLUMN& operator=(const COLLUMN& c)
 	{
 		if (this  != &c)
@@ -103,6 +109,7 @@ public:
             this->type = c.type;
 			this->size = c.size;
 			this->nr_elemente = c.nr_elemente;
+			this->defaultValue = c.defaultValue;
 			for (int i = 0; i < 10; i++)
 			{
 				this->elemente[i] = c.elemente[i];
@@ -175,13 +182,12 @@ public:
 	{
 		return this->tableName;
 	}
+ friend ofstream& operator<<(ofstream& fout, TABLE tabel);
 
 	~TABLE()
 	{
 		
-		
 	}
-
 };
 
 //the class that contains all tables created, which inherits table
@@ -238,8 +244,39 @@ public:
 	~ALLTables() {
 		delete[] tabele;
 	}
+
+
+
 };
 
+ofstream& operator<<(ofstream& fout, TABLE tabel)
+{
+	fout << tabel.tableName << endl;
+	fout << tabel.nrofCollumns << endl;
+	for (int i = 0; i < tabel.nrofCollumns; i++)
+	{
+		fout << tabel.coloana[i].colName<<" ";
+	}
+	fout << endl;
+	for (int i = 0; i < tabel.nrofCollumns; i++)
+	{
+		fout << tabel.coloana[i].type<< " " ;
+	}
+	fout << endl;
+	for (int z = 0; z < tabel.coloana[0].nr_elemente; z++)
+	{
+
+
+		for (int j = 0; j < tabel.nrofCollumns; j++)
+		{
+
+			fout << tabel.coloana[j].elemente[z].value<<" ";
+
+		}
+		fout << endl;
+	}
+	return fout;
+}
 
 
 char* lower(char comanda[])
@@ -307,7 +344,7 @@ void findMyCommand(char* command, ALLTables& database)
 						//default value
 						secCommand = strtok_s(NULL, " ,()", &next_token);
 						s = lower(secCommand);
-
+						coloana1.addDefault(s);
 						ELEMENTE element1;
 						element1.addElemente(s);
 						for (int i = 0; i < 10; i++)

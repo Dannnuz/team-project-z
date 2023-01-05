@@ -1,8 +1,11 @@
 #include <iostream>
 #include <string.h>
 #define _CRT_SECURE_NO_WARNINGS
-#include "MyCLass.h"
+
 #include<string>
+#include <fstream>
+#include <istream>
+#include "MyCLass.h"
 using namespace std;
 
 
@@ -19,7 +22,7 @@ int main()
 	//THESE ARE COMMANDS VERIFIED THAT WORK
 	
 	
-	//create table tabelnou ((masini,text,20,logan),(clienti,text,10,marcel),(venit_lunar,text,10,pensie))
+	//create table tabelnou32 ((masini,text,20,logan),(clienti,text,10,marcel),(venit_lunar,text,10,pensie))
 	
 	//delete from tabelnou where column_name = clienti
 	
@@ -41,13 +44,27 @@ int main()
 
 	//here is a loop where we can introduce commands an modify the database
 	
+
+
 	while (strcmp(command, "quit") != 0)
 	{
 		cin.getline(command, 200);
+		if(strcmp(command, "quit") != 0)
 		findMyCommand(command, database);
 		
 	}
 	
+	if (database.nrOfTables != 0)
+	{
+		for (int i = 0; i < database.nrOfTables; i++)
+		{
+			ofstream f(database.tabele[i].tableName);
+			f<< database.tabele[i];
+			f.close();
+		}
+	}
+
+
 
 	
 	//HOW IT WORKS
