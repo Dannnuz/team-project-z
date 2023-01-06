@@ -22,7 +22,7 @@ int main()
 	//THESE ARE COMMANDS VERIFIED THAT WORK
 	
 	
-	//create table tabelnou32 ((masini,text,20,logan),(clienti,text,10,marcel),(venit_lunar,text,10,pensie))
+	//create table tabelnou ((masini,text,20,logan),(clienti,text,10,marcel),(venit_lunar,text,10,pensie))
 	
 	//delete from tabelnou where column_name = clienti
 	
@@ -58,9 +58,7 @@ int main()
 	{
 		for (int i = 0; i < database.nrOfTables; i++)
 		{
-			ofstream f(database.tabele[i].tableName);
-			f<< database.tabele[i];
-			f.close();
+			database.tabele[i].writeFile();
 		}
 	}
 

@@ -182,7 +182,35 @@ public:
 	{
 		return this->tableName;
 	}
- friend ofstream& operator<<(ofstream& fout, TABLE tabel);
+ 
+ void writeFile()
+ {
+	 ofstream fout(this->tableName);
+
+	 fout << this->tableName << endl;
+
+	 fout << this->nrofCollumns << endl;
+
+	 for (int i = 0; i < this->nrofCollumns; i++)
+	 {
+		 fout << this->coloana[i].type << " ";
+	 }
+	 fout << endl;
+
+
+	 for (int z = 0; z < this->coloana[0].nr_elemente; z++)
+	 {
+
+		 for (int j = 0; j < this->nrofCollumns; j++)
+		 {
+
+			 fout << this->coloana[j].elemente[z].value << " ";
+
+		 }
+		 fout << endl;
+	 }
+	 fout.close();
+ }
 
 	~TABLE()
 	{
@@ -249,34 +277,7 @@ public:
 
 };
 
-ofstream& operator<<(ofstream& fout, TABLE tabel)
-{
-	fout << tabel.tableName << endl;
-	fout << tabel.nrofCollumns << endl;
-	for (int i = 0; i < tabel.nrofCollumns; i++)
-	{
-		fout << tabel.coloana[i].colName<<" ";
-	}
-	fout << endl;
-	for (int i = 0; i < tabel.nrofCollumns; i++)
-	{
-		fout << tabel.coloana[i].type<< " " ;
-	}
-	fout << endl;
-	for (int z = 0; z < tabel.coloana[0].nr_elemente; z++)
-	{
 
-
-		for (int j = 0; j < tabel.nrofCollumns; j++)
-		{
-
-			fout << tabel.coloana[j].elemente[z].value<<" ";
-
-		}
-		fout << endl;
-	}
-	return fout;
-}
 
 
 char* lower(char comanda[])
