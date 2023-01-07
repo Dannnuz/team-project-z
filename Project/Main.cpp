@@ -42,18 +42,23 @@ int main()
 	
 	//select all from tabelnou where id = 2
 
+	//PHASE 2
+	//command file - a file which contains the commands
+
+	//each table will have a separate file ( named after the table name ) 
+
+	//an additional file that stores all the table names
+
 	//here is a loop where we can introduce commands an modify the database
-	
-
-
 	while (strcmp(command, "quit") != 0)
 	{
 		cin.getline(command, 200);
 		if(strcmp(command, "quit") != 0)
 		findMyCommand(command, database);
-		
+	
 	}
 	
+
 	if (database.nrOfTables != 0)
 	{
 		for (int i = 0; i < database.nrOfTables; i++)
