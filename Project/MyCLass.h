@@ -182,7 +182,7 @@ public:
 	{
 		return this->tableName;
 	}
- 
+ /*
  void writeFile()
  {
 	 ofstream fout(this->tableName);
@@ -198,6 +198,12 @@ public:
 	 fout << endl;
 
 
+	 for (int i = 0; i < this->nrofCollumns; i++)
+	 {
+		 fout << this->coloana[i].size << " ";
+	 }
+	 fout << endl;
+
 	 for (int z = 0; z < this->coloana[0].nr_elemente; z++)
 	 {
 
@@ -211,6 +217,7 @@ public:
 	 }
 	 fout.close();
  }
+ */
 
 	~TABLE()
 	{
@@ -269,6 +276,167 @@ public:
 		this->nrOfTables = nrOfTables + 1;
 	}
 
+	void writeDataBase()
+	{
+		ofstream fwrite("listOfTables.txt");
+		
+		for (int j = 0; j < nrOfTables; j++)
+		{
+			ofstream fout(this->tabele[j].tableName);
+
+			fout << this->tabele[j].tableName << endl;
+
+			fout << this->tabele[j].nrofCollumns << endl;
+
+			for (int i = 0; i < this->tabele[j].nrofCollumns; i++)
+			{
+				fout << this->tabele[j].coloana[i].type << " ";
+			}
+			fout << endl;
+
+
+			for (int i = 0; i < this->tabele[j].nrofCollumns; i++)
+			{
+				fout << this->tabele[j].coloana[i].size << " ";
+			}
+			fout << endl;
+
+			for (int i = 0; i < this->tabele[j].nrofCollumns; i++)
+			{
+				fout << this->tabele[j].coloana[i].colName << " ";
+			}
+			fout << endl;
+
+			
+			
+				fout << this->tabele[j].coloana[0].nr_elemente << endl;
+			
+			
+
+			for (int z = 0; z < this->tabele[j].coloana[0].nr_elemente; z++)
+			{
+
+				for (int n = 0; n < this->tabele[j].nrofCollumns; n++)
+				{
+
+					fout << this->tabele[j].coloana[n].elemente[z].value << " ";
+
+				}
+				fout << endl;
+			}
+			
+			for (int i = 0; i < this->tabele[j].nrofCollumns; i++)
+			{
+				fout << this->tabele[j].coloana[i].defaultValue << " ";
+			}
+			fout << endl;
+			fwrite << tabele[j].tableName << endl;
+
+			fout.close();
+		}
+		fwrite.close();
+	}
+
+	void copyExistingTable(string fileName,int numberOfTabel)
+	{
+		ifstream fin(fileName);
+
+		TABLE tabelNou;
+		
+		fin >> tabelNou.tableName;
+
+		fin >> tabelNou.nrofCollumns;
+
+		for (int i = 0; i < tabelNou.nrofCollumns; i++)
+		{
+			fin >> tabelNou.coloana[i].type;
+		}
+
+		for (int i = 0; i < tabelNou.nrofCollumns; i++)
+		{
+			fin >> tabelNou.coloana[i].size;
+		}
+
+		for (int i = 0; i < tabelNou.nrofCollumns; i++)
+		{
+			fin >> tabelNou.coloana[i].colName;
+		}
+
+		fin >> tabelNou.coloana[0].nr_elemente;
+		int nr_nou = tabelNou.coloana[0].nr_elemente;
+		for (int i = 0; i < tabelNou.nrofCollumns; i++)
+		{
+			tabelNou.coloana[i].nr_elemente = nr_nou;
+		}
+		if (nr_nou != 0)
+		{
+			for (int z = 0; z < tabelNou.coloana[0].nr_elemente; z++)
+			{
+
+				for (int n = 0; n < tabelNou.nrofCollumns; n++)
+				{
+
+					fin >> tabelNou.coloana[n].elemente[z].value ;
+
+				}
+				
+			}
+		}
+
+		for (int i = 0; i < tabelNou.nrofCollumns; i++)
+		{
+			fin >> tabelNou.coloana[i].defaultValue;
+		
+		}
+		tabele[numberOfTabel] = tabelNou;
+		fin.close();
+	}
+
+	void readDataBase()
+	{
+		ifstream fRead("listOfTables.txt");
+
+		if (!fRead)
+		{
+			return;
+		}
+		//table name
+		string s;
+
+		//nr of tables is set to 0
+		this->nrOfTables = 0;
+		
+		while (fRead >> s)
+		{
+			copyExistingTable(s,this->nrOfTables);
+			this->nrOfTables++;
+		}
+
+		fRead.close();
+
+	}
+
+	void deleteDataBase()
+	{
+		ifstream iread("listOfTables.txt");
+
+		string s;
+
+		while (iread >> s)
+		{
+			if (remove(s.c_str()))
+				cout << "file " << s << " has been deleted"<<endl;
+		}
+
+		iread.close();
+
+		if (remove("listOfTables.txt"))
+		{
+			cout << "listOfTables.txt has been deleted"<<endl;
+		}
+	}
+	
+		
 	~ALLTables() {
 		delete[] tabele;
 	}

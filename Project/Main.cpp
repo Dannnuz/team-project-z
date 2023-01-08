@@ -19,14 +19,17 @@ int main()
 	
 	ALLTables database;
 	
+
+	database.readDataBase();
+	database.deleteDataBase();
 	//THESE ARE COMMANDS VERIFIED THAT WORK
 	
 	
-	//create table tabelnou ((masini,text,20,logan),(clienti,text,10,marcel),(venit_lunar,text,10,pensie))
+	//create table tabelnou3 ((masini,text,20,logan),(clienti,text,10,marcel),(venit_lunar,text,10,pensie))
 	
 	//delete from tabelnou where column_name = clienti
 	
-	//insert into tabelnou (mercedes,danut,salariu)
+	//insert into tabelnou3 (mercedes,danut,salariu)
 	
 	//insert into tabelnou (toyota,ion,bitcoin)
 	
@@ -61,13 +64,10 @@ int main()
 
 	if (database.nrOfTables != 0)
 	{
-		for (int i = 0; i < database.nrOfTables; i++)
-		{
-			database.tabele[i].writeFile();
-		}
+		database.writeDataBase();
 	}
 
-
+	
 
 	
 	//HOW IT WORKS
