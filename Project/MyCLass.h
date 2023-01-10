@@ -182,42 +182,7 @@ public:
 	{
 		return this->tableName;
 	}
- /*
- void writeFile()
- {
-	 ofstream fout(this->tableName);
-
-	 fout << this->tableName << endl;
-
-	 fout << this->nrofCollumns << endl;
-
-	 for (int i = 0; i < this->nrofCollumns; i++)
-	 {
-		 fout << this->coloana[i].type << " ";
-	 }
-	 fout << endl;
-
-
-	 for (int i = 0; i < this->nrofCollumns; i++)
-	 {
-		 fout << this->coloana[i].size << " ";
-	 }
-	 fout << endl;
-
-	 for (int z = 0; z < this->coloana[0].nr_elemente; z++)
-	 {
-
-		 for (int j = 0; j < this->nrofCollumns; j++)
-		 {
-
-			 fout << this->coloana[j].elemente[z].value << " ";
-
-		 }
-		 fout << endl;
-	 }
-	 fout.close();
- }
- */
+ 
 
 	~TABLE()
 	{
@@ -445,6 +410,66 @@ public:
 
 };
 
+bool verifParantezeCreateIndexSauInsertInto(string command) {
+	int ok;
+	if (command.front() == '(' && command.back() == ')') {
+		ok = true;
+	}
+	else
+		ok = false;
+	return ok;
+}
+
+
+
+//structura ((x,y,z,c),...,(a,b,c,d))
+//verif prima data daca parantezele mici contin 3 virgule structura (x,y,z,c)
+bool verifParantezeMiciCreateTable(string command) {
+	int ok = false;
+	int l = command.length();
+	if (command.front() == '(' && command.back() == ')') {
+		int count = 0;
+		for (int i = 0; i < command.length(); i++) {
+			if (command[i] == ',') {
+				count++;
+			}
+		}
+		if (count == 3) {
+			ok = true;
+		}
+	}
+	return ok;
+}
+
+//verif paranteze comanda create table structura ((x,y,z,c),...,(a,b,c,d))
+bool verifParantezeCreateTable(string command) {
+	int ok = false;
+	if (command.front() == '(' && command.back() == ')') {
+		if (command.at(1) == '(') {
+			int pos = 3;
+			pos = command.find('(', pos);
+			if (pos == -1) {
+				int pos1 = command.find(')');
+				string str = command.substr(1, pos1);
+				ok = verifParantezeMiciCreateTable(str);
+			}
+			else {
+				pos = 0;
+				while (pos >= 0) {
+					pos = command.find(')');
+					string str = command.substr(1, pos);
+					command = command.substr(pos + 1);
+					ok = verifParantezeMiciCreateTable(str);
+					pos = command.find(',');
+				}
+			}
+
+		}
+
+
+	}
+	return ok;
+}
 
 
 
@@ -457,6 +482,8 @@ char* lower(char comanda[])
 
 	return comanda;
 }
+
+
 
 //function for validating and using the commands
 void findMyCommand(char* command, ALLTables& database)
@@ -481,56 +508,64 @@ void findMyCommand(char* command, ALLTables& database)
 				//verify if the table's name is not already in the database
 				if (database.tableVerification(secCommand))
 				{
-					//we make a local object of TABLE class
-					TABLE tabel1;
-					tabel1.setTabelName(s);
-					secCommand = strtok_s(NULL, " ,()", &next_token);
-					while (secCommand)
-					{
-						//we create a local object of COLLUMN class
-						COLLUMN coloana1;
-						//here we must introuce at least 1 collumn to the table
-
-
-						//column name
-
-						s = lower(secCommand);
-
-						coloana1.setColName(s);//setter for collumn name
-
-						//type of collumn
+					string paranthesis = next_token;
+					if (verifParantezeCreateTable(paranthesis))
+					{ //we make a local object of TABLE class
+						TABLE tabel1;
+						tabel1.setTabelName(s);
 						secCommand = strtok_s(NULL, " ,()", &next_token);
 
-						s = lower(secCommand);
-						coloana1.setType(s);//setter for type
-
-						//size
-						secCommand = strtok_s(NULL, " ,()", &next_token);
-						int x = atoi(secCommand);
-
-						coloana1.setSize(x);//setter for size
-
-						//default value
-						secCommand = strtok_s(NULL, " ,()", &next_token);
-						s = lower(secCommand);
-						coloana1.addDefault(s);
-						ELEMENTE element1;
-						element1.addElemente(s);
-						for (int i = 0; i < 10; i++)
+						while (secCommand)
 						{
-							coloana1.addELEMENTE(element1, i);
+							//we create a local object of COLLUMN class
+							COLLUMN coloana1;
+							//here we must introuce at least 1 collumn to the table
+
+
+							//column name
+
+							s = lower(secCommand);
+
+							coloana1.setColName(s);//setter for collumn name
+
+							//type of collumn
+							secCommand = strtok_s(NULL, " ,()", &next_token);
+
+							s = lower(secCommand);
+							coloana1.setType(s);//setter for type
+
+							//size
+							secCommand = strtok_s(NULL, " ,()", &next_token);
+							int x = atoi(secCommand);
+
+							coloana1.setSize(x);//setter for size
+
+							//default value
+							secCommand = strtok_s(NULL, " ,()", &next_token);
+							s = lower(secCommand);
+							coloana1.addDefault(s);
+							ELEMENTE element1;
+							element1.addElemente(s);
+							for (int i = 0; i < 10; i++)
+							{
+								coloana1.addELEMENTE(element1, i);
+							}
+
+							//here we copy the collumn into the table
+							tabel1.addCOLLUMNS(coloana1, tabel1.nrofCollumns);
+							tabel1.addColoane();
+
+							secCommand = strtok_s(NULL, " ,()", &next_token);
 						}
-
-						//here we copy the collumn into the table
-						tabel1.addCOLLUMNS(coloana1, tabel1.nrofCollumns);
-						tabel1.addColoane();
-
-						secCommand = strtok_s(NULL, " ,()", &next_token);
+						//here we copy the table into the database
+						database.addNewTable(tabel1, database.nrOfTables);
+						database.addTables();
+						cout << "Table " << tabel1.tableName << " has been created" << endl;
 					}
-					//here we copy the table into the database
-					database.addNewTable(tabel1, database.nrOfTables);
-					database.addTables();
-
+					else
+					{
+						cout << "The values are not inserted correctly" << endl;
+					}
 				}
 				else
 				{
@@ -577,15 +612,23 @@ void findMyCommand(char* command, ALLTables& database)
 					{
 						if (s == database.tabele[z].tableName)
 						{
-							secCommand = strtok_s(NULL, " ()", &next_token);
-							s = lower(secCommand);
-							for (int n = 0; n < database.tabele[z].nrofCollumns; n++)
+							string paranthesis = next_token;
+							if (verifParantezeCreateIndexSauInsertInto(paranthesis))
 							{
-								if (s == database.tabele[z].coloana[n].colName)
+								secCommand = strtok_s(NULL, " ()", &next_token);
+								s = lower(secCommand);
+								for (int n = 0; n < database.tabele[z].nrofCollumns; n++)
 								{
-									database.tabele[z].coloana[n].index = indexName;
-									cout << "inedx created for column: " << database.tabele[z].coloana[n].colName << endl;
+									if (s == database.tabele[z].coloana[n].colName)
+									{
+										database.tabele[z].coloana[n].index = indexName;
+										cout << "inedx created for column: " << database.tabele[z].coloana[n].colName << endl;
+									}
 								}
+							}
+							else
+							{
+								cout << "missing paranthesis" << endl;
 							}
 						}
 						else
@@ -653,7 +696,7 @@ void findMyCommand(char* command, ALLTables& database)
 
 			if (found)
 			{
-				cout << "Elemenst has been deleted" << endl;
+				cout << "Element has been deleted" << endl;
 			}
 			else
 			{
@@ -840,20 +883,27 @@ void findMyCommand(char* command, ALLTables& database)
 		{
 			secCommand = strtok_s(NULL, " ", &next_token);
 			s = lower(secCommand);
-
-			for (int i = 0; i < database.nrOfTables; i++)
+			string paranthesis = next_token;
+			if (verifParantezeCreateIndexSauInsertInto(paranthesis))
 			{
-				if (s == database.tabele[i].tableName)
+				for (int i = 0; i < database.nrOfTables; i++)
 				{
-					for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+					if (s == database.tabele[i].tableName)
 					{
-						secCommand = strtok_s(NULL, " ,()", &next_token);
-						s = lower(secCommand);
+						for (int j = 0; j < database.tabele[i].nrofCollumns; j++)
+						{
+							secCommand = strtok_s(NULL, " ,()", &next_token);
+							s = lower(secCommand);
 
-						database.tabele[i].coloana[j].elemente[database.tabele[i].coloana[j].nr_elemente].value = s;
-						database.tabele[i].coloana[j].addNrElemente();
+							database.tabele[i].coloana[j].elemente[database.tabele[i].coloana[j].nr_elemente].value = s;
+							database.tabele[i].coloana[j].addNrElemente();
+						}
 					}
 				}
+			}
+			else
+			{
+				cout << "missing paranthesis" << endl;
 			}
 		}
 
