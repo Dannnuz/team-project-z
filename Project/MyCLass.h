@@ -40,7 +40,7 @@ public:
 };
 
 //the class for the collumns
-class COLLUMN
+class COLLUMN: public ELEMENTE
 {
 public:
 	string colName;
@@ -128,7 +128,7 @@ public:
 };
 
 //the class for the table which inherits collumn
-class TABLE :COLLUMN
+class TABLE : public COLLUMN
 {
 public:
 	string tableName;
@@ -186,6 +186,7 @@ public:
 
 	~TABLE()
 	{
+		
 		
 	}
 };
@@ -444,6 +445,7 @@ bool verifParantezeMiciCreateTable(string command) {
 //verif paranteze comanda create table structura ((x,y,z,c),...,(a,b,c,d))
 bool verifParantezeCreateTable(string command) {
 	int ok = false;
+	string commandCopy = command;
 	if (command.front() == '(' && command.back() == ')') {
 		if (command.at(1) == '(') {
 			int pos = 3;
@@ -468,6 +470,11 @@ bool verifParantezeCreateTable(string command) {
 
 
 	}
+	commandCopy.pop_back();
+	if (commandCopy.back() != ')') {
+		ok = false;
+	}
+
 	return ok;
 }
 
